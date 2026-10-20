@@ -144,7 +144,7 @@ cat("\n**Pour aller plus loin.** Estimer le domaine vital du groupe de Sein et d
     "nécessiterait des données que les portails publics ne fournissent pas : l'effort d'observation (sorties, trajets, durée), ",
     "l'identification des individus par photo-identification, des observations couvrant la partie ouest de la chaussée, ",
     "et des données sur les petites embarcations absentes de l'AIS, recueillies selon un protocole commun et sur une même période. ",
-    "Les sources repérées au cours de cet exercice sont listées en annexe.\n\n", sep = "")
+    "Les sources repérées au cours de cet exercice sont listées en annexe 2.\n\n", sep = "")
 cat("*Analyse exploratoire fondée sur des observations publiques hétérogènes : les contours décrivent la densité des observations, ",
     "qui dépend aussi de la répartition des observateurs, et non directement le domaine vital des groupes.*\n:::\n\n", sep = "")
 ```
@@ -172,9 +172,9 @@ Il montre aussi la **bancarisation** des observations et des résultats dans une
 
 Toutes les couches sont projetées en **Lambert-93 (EPSG:2154)**, système métrique nécessaire au calcul des surfaces et des distances.
 
-**Nettoyage et contrôle qualité.** Les enregistrements des deux portails ont été harmonisés puis filtrés, chaque étape étant tracée dans un journal. Sur `r fmt(j$n_restant[1])` enregistrements bruts, `r fmt(res$n_zone)` observations sont conservées dans l'emprise d'étude après nettoyage, dont `r fmt(res$n_parc)` dans le Parc. Outre les filtres habituels (échouages, doublons exacts entre portails, dates antérieures à 2000, précision supérieure à 5 km, points à terre, agrégation à une observation par km² et par jour pour limiter la pseudo-réplication), deux contrôles ont été ajoutés après examen des données :
+**Nettoyage et contrôle qualité.** Les enregistrements des deux portails ont été harmonisés puis filtrés, chaque étape étant tracée dans un journal. Sur `r fmt(j$n_restant[1])` enregistrements bruts, `r fmt(res$n_zone)` observations sont conservées dans l'emprise d'étude après nettoyage, dont `r fmt(res$n_parc)` dans le Parc. Outre les filtres habituels (échouages, doublons exacts entre portails, dates antérieures à 2000, précision supérieure à 5 km, points à terre, agrégation à une observation par km² et par jour pour limiter la pseudo-réplication), deux contrôles ont été ajoutés après examen des données (règles et effectifs de chaque étape en annexe 1) :
 
-- **Positions ramenées sur une grille** (`r fmt(n_grille)` enregistrements) : un jeu de données ancien ne fournit pas la position des observations mais le centre de mailles d'atlas (par exemple 4°50' O, 48°25' N), jusqu'à 24 observations étant empilées sur un même point, avec une précision déclarée de 50 m manifestement erronée. Ces positions sont repérées automatiquement (longitude et latitude multiples exactes de 5 minutes d'arc), puis exclues après examen de la liste des points concernés (81 sur 82 proviennent du même jeu).
+- **Positions ramenées sur une grille** (`r fmt(n_grille)` enregistrements) : un jeu de données ancien ne fournit pas la position exacte des observations mais des positions ramenées au centre d'un quadrillage régulier, comme dans un atlas de répartition (par exemple 4°50' O, 48°25' N), jusqu'à 24 observations étant empilées sur un même point, avec une précision déclarée de 50 m manifestement erronée. Ces positions sont repérées automatiquement (longitude et latitude multiples exactes de 5 minutes d'arc), puis exclues après examen de la liste des points concernés (81 sur 82 proviennent du même jeu).
 - **Doublons « floutés »** (`r fmt(n_flou)` enregistrements) : un inventaire national semble republier des observations d'autres jeux avec des coordonnées dégradées à 5 km : la plupart de ses enregistrements ont un équivalent le même jour, à quelques kilomètres, dans un autre jeu. Une donnée floutée est retirée lorsqu'une observation plus précise d'un autre jeu existe le même jour à moins de 10 km. Le détail des enregistrements exclus, par jeu et par position, est fourni avec le code.
 
 **`r fmt(res$n_parc)` observations** sont retenues dans le Parc, de `r res$annees[1]` à `r res$annees[2]`.
@@ -363,16 +363,55 @@ Les écarts avec les suivis par photo-identification, en particulier à Sein, mo
 
 ```{=typst}
 #pagebreak()
-```
-
-## Annexe – Sources de données identifiées (liste non exhaustive)
-
-Ce tableau rassemble les sources repérées au cours de cet exercice, à partir de documents publics consultés en octobre 2026. Il n'est pas exhaustif : d'autres données existent certainement, notamment au sein du Parc et de ses partenaires, et les informations sur les données non publiques ne sont données qu'à titre indicatif. Il indique pour chaque source si l'effort d'observation est connu, condition nécessaire pour distinguer la présence des dauphins de celle des observateurs.
-
-```{=typst}
 #set par(justify: false)
 #set text(hyphenate: false)
 ```
+
+## Annexe 1 – Étapes du nettoyage des observations
+
+Les filtres sont appliqués dans l'ordre du tableau : un enregistrement retiré à une étape n'est plus compté aux suivantes. Avant ces étapes, la requête au GBIF ne retient que les enregistrements géolocalisés et sans problème géographique signalé par le portail.
+
+```{r}
+#| label: nettoyage
+#| tbl-colwidths: [16, 64, 10, 10]
+regles <- list(
+  "Données brutes"     = c("Données de départ", "Enregistrements OBIS et GBIF, réduits à dix colonnes communes"),
+  "Coordonnées"        = c("Coordonnées", "Longitude et latitude présentes et dans les bornes possibles"),
+  "absence"            = c("Absences", "Statut « absent » exclu"),
+  "Spécimens"          = c("Spécimens", "Spécimens de collection exclus"),
+  "chouages"           = c("Échouages", "Jeux dont le nom contient « échouage » ou « stranding » exclus"),
+  "Doublons supprimés" = c("Doublons exacts", "Une ligne par position (arrondie à environ 100 m) et par date"),
+  "Date connue"        = c("Dates", "Date connue et année ≥ 2000"),
+  "Précision"          = c("Précision", "Incertitude déclarée ≤ 5 km ; enregistrements sans incertitude déclarée conservés"),
+  "grille"             = c("Positions sur grille", "Longitude et latitude toutes deux multiples exacts de 5′ exclues"),
+  "terre"              = c("Points à terre", "Altitude lue sur la bathymétrie de 20 m ou plus exclue"),
+  "floutés"            = c("Doublons floutés", "Incertitude ≥ 5 km exclue si un autre jeu donne, le même jour et à moins de 10 km, une position plus précise"),
+  "Agrégation"         = c("Agrégation", "Une observation par carré de 1 km et par jour"),
+  "dans le Parc"       = c("Parc", "Observations situées dans la partie marine du Parc")
+)
+decrire <- function(etape) {
+  k <- names(regles)[vapply(names(regles), function(m) grepl(m, etape, fixed = TRUE), logical(1))]
+  if (length(k) == 0) c(etape, "") else regles[[k[1]]]
+}
+d_n <- t(vapply(j$etape, decrire, character(2), USE.NAMES = FALSE))
+tab_n <- data.frame(
+  Etape   = d_n[, 1],
+  Regle   = d_n[, 2],
+  Retires = c("–", fmt(-diff(j$n_restant))),
+  Restant = fmt(j$n_restant)
+)
+knitr::kable(tab_n, align = "llrr", col.names = c("Étape", "Règle appliquée", "Retirés", "Restant"))
+```
+
+Les observations situées hors du Parc ne sont pas des données erronées : elles sont conservées comme contexte sur les cartes.
+
+```{=typst}
+#pagebreak()
+```
+
+## Annexe 2 – Sources de données identifiées (liste non exhaustive)
+
+Ce tableau rassemble les sources repérées au cours de cet exercice, à partir de documents publics consultés en octobre 2026. Il n'est pas exhaustif : d'autres données existent certainement, notamment au sein du Parc et de ses partenaires, et les informations sur les données non publiques ne sont données qu'à titre indicatif. Il indique pour chaque source si l'effort d'observation est connu, condition nécessaire pour distinguer la présence des dauphins de celle des observateurs.
 
 | Source (producteur) | Contenu | Effort | Accès | Apport pour le groupe de Sein |
 |:-----------------|:------------------|:------|:-------------|:------------------|
