@@ -7,7 +7,7 @@
 #  « Site étudié ».
 #
 #  Analyse exploratoire à partir de données ouvertes
-#  Auteur : Gwladys Helaine — octobre 2026
+#  Auteure : Gwladys Helaine — octobre 2026
 #
 #  Étapes :
 #   0. Paramètres et packages
@@ -113,7 +113,7 @@ INCERTITUDE_MAX_M  <- 5000   # précision de localisation minimale acceptée
 TOLERANCE_TERRE_M  <- 20     # altitude max tolérée : grille bathy grossière près des côtes
                              # et estran découvert à marée basse (marnage de plusieurs
                              # mètres en Iroise)
-PAS_GRILLE_DEG     <- 1 / 12 # 5 minutes d'arc : positions dont la longitude ET la
+PAS_GRILLE_DEG     <- 1 / 12 # 5 minutes d'arc : positions dont la longitude et la
                              # latitude tombent pile sur ce pas = centres de maille
                              # d'un atlas, pas des positions réelles
 INCERTITUDE_FLOUTEE_M <- 5000 # précision annoncée à partir de laquelle une donnée est
@@ -466,8 +466,8 @@ if (file.exists(fichier_compl)) {
 }
 
 if (is.null(obs_brutes) || nrow(obs_brutes) == 0) {
-  stop("Aucune observation récupérée. Vérifie la connexion internet ",
-       "ou dépose un fichier data/raw/observations_complementaires.csv.")
+  stop("Aucune observation récupérée. Vérifier la connexion internet ",
+       "ou déposer un fichier data/raw/observations_complementaires.csv.")
 }
 
 # -- Nettoyage, avec un journal de chaque étape (traçabilité)
@@ -510,7 +510,7 @@ obs <- obs_brutes |>
 # d'une maille d'atlas (ex. 4°50' O, 48°25' N). Plusieurs dizaines d'observations
 # se retrouvent alors empilées sur le même point, et la précision déclarée (50 m)
 # est fausse. Un point GPS réel tombe très rarement pile sur ce pas pour la
-# longitude ET la latitude : on peut donc les repérer automatiquement.
+# longitude et la latitude : on peut donc les repérer automatiquement.
 sur_grille <- function(v, pas) abs(v / pas - round(v / pas)) < 1e-3
 obs$sur_grille <- sur_grille(obs$longitude, PAS_GRILLE_DEG) &
                   sur_grille(obs$latitude,  PAS_GRILLE_DEG)
@@ -1574,7 +1574,7 @@ readr::write_csv(dictionnaire, "data/propre/dictionnaire_donnees.csv")
 
 # 8b. Couches SIG pour QGIS (un seul GeoPackage + rasters)
 gpkg <- "outputs/sig/delfinu_iroise.gpkg"
-# Supprimer l'ancien GeoPackage ET ses fichiers annexes SQLite (-wal, -shm, -journal)
+# Supprimer l'ancien GeoPackage et ses fichiers annexes SQLite (-wal, -shm, -journal)
 unlink(list.files("outputs/sig", pattern = "^delfinu_iroise\\.gpkg", full.names = TRUE))
 st_write(zone_etude, gpkg, layer = "zone_etude", quiet = TRUE)
 st_write(obs_parc[, c("source", "date", "annee", "profondeur", "jeu_donnees")],
@@ -1629,7 +1629,7 @@ sources <- data.frame(
 )
 readr::write_csv(sources, "outputs/sources_donnees.csv")
 
-message("\nTerminé. Résultats dans outputs/ — lance ensuite le rendu de note.qmd et presentation.qmd.")
+message("\nTerminé. Résultats dans outputs/ — lancer ensuite postgis.R (base de données) puis le rendu de note.qmd.")
 print(resultats$journal)
 message("Positions sur grille exclues, par jeu et par point :")
 print(resultats$exclus_grille)
