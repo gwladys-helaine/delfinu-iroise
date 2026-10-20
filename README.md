@@ -46,7 +46,7 @@ Le schéma `iroise` contient les observations nettoyées, le périmètre du Parc
 | `exclus_positions_grille.csv`, `exclus_doublons_floutes.csv` | Détail des enregistrements exclus par les deux contrôles qualité spécifiques |
 | `domaine_vital_secteurs.csv`, `sensibilite_secteurs.csv`, `observations_secteurs.csv` | Surfaces, sensibilité au découpage, effectifs par secteur |
 | `habitat_resume.csv`, `modele_habitat.csv`, `trafic_par_zone.csv`, `trafic_secteurs.csv`, `trafic_controle_cote.csv` | Résultats chiffrés |
-| `journal_requetes.txt` | Requêtes SQL exécutées et leurs résultats |
+| `journal_requetes.txt`, `01_…csv` à `07_…csv` | Requêtes SQL exécutées et leurs résultats (journal et un fichier par requête) |
 | `delfinu-iroise.Rproj`, `GUIDE_IROISE.md` | Projet RStudio et guide d'installation |
 
 ## Reproduire l'analyse
