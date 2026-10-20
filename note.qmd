@@ -1,6 +1,6 @@
 ---
 title: "Zones de concentration des observations de grand dauphin en Iroise et chevauchement avec le trafic maritime"
-subtitle: "Analyse exploratoire de données ouvertes — exercice préparatoire au projet Delfinu"
+subtitle: "Exercice personnel d'analyse de données ouvertes, réalisé dans le cadre d'une candidature au projet Delfinu"
 author: "Gwladys Helaine"
 date: today
 date-format: "D MMMM YYYY"
@@ -113,7 +113,10 @@ if (!res$parc_officiel) {
 ```{r}
 #| label: essentiel
 #| output: asis
-cat("::: {.callout-note title=\"Résultats principaux\"}\n")
+cat("::: {.callout-note title=\"Synthèse\"}\n")
+cat("**Objectif.** Explorer ce que les données publiques permettent de dire de la répartition des grands dauphins dans le Parc, ",
+    "en particulier autour de l'île de Sein, et de leur chevauchement avec le trafic maritime.\n\n", sep = "")
+cat("**Principaux résultats.**\n\n")
 cat("- **Localisation** : les observations se concentrent en deux zones distinctes, entre l'est de l'archipel de Molène et Le Conquet, ",
     "et autour de l'île de Sein, en accord général avec les deux groupes côtiers résidents décrits par les suivis par photo-identification. ",
     "Cette localisation est stable lorsque l'on modifie le découpage des secteurs ou la largeur de bande.\n", sep = "")
@@ -137,7 +140,12 @@ if (trafic_ok) {
       else "Une partie de cet écart tient à la proximité de la côte et à l'effort d'observation.",
       "\n", sep = "")
 }
-cat("\n*Analyse exploratoire fondée sur des observations publiques hétérogènes : les contours décrivent la densité des observations, ",
+cat("\n**Pour aller plus loin.** Estimer le domaine vital du groupe de Sein et documenter ses interactions avec les activités humaines ",
+    "nécessiterait des données que les portails publics ne fournissent pas : l'effort d'observation (sorties, trajets, durée), ",
+    "l'identification des individus par photo-identification, des observations couvrant la partie ouest de la chaussée, ",
+    "et des données sur les petites embarcations absentes de l'AIS, recueillies selon un protocole commun et sur une même période. ",
+    "Les sources repérées au cours de cet exercice sont listées en annexe.\n\n", sep = "")
+cat("*Analyse exploratoire fondée sur des observations publiques hétérogènes : les contours décrivent la densité des observations, ",
     "qui dépend aussi de la répartition des observateurs, et non directement le domaine vital des groupes.*\n:::\n\n", sep = "")
 ```
 
@@ -145,7 +153,7 @@ cat("\n*Analyse exploratoire fondée sur des observations publiques hétérogèn
 
 Le projet Delfinu, co-porté par les parcs naturels marins d'Iroise et du Cap Corse et de l'Agriate, vise à comprendre et réduire les pressions humaines sur les grands dauphins (*Tursiops truncatus*) résidents. En mer d'Iroise, deux groupes côtiers résidents sont suivis par photo-identification : l'un dans l'archipel de Molène, l'autre sur la chaussée de Sein. Le **domaine vital** désigne l'espace utilisé habituellement par un individu ou un groupe pour ses activités (alimentation, repos, reproduction).
 
-Cet exercice applique à l'Iroise, à partir de données publiques, la méthode déjà mise en œuvre pour le Parc du Cap Corse et de l'Agriate. Il répond à trois questions :
+Cet exercice personnel explore ce que les données publiques permettent de dire de la répartition des grands dauphins dans le Parc. Il reprend, en l'enrichissant, la démarche d'un premier exercice réalisé sur le Parc du Cap Corse et de l'Agriate, et ne prétend pas se substituer aux suivis menés par le Parc et ses partenaires, qui reposent sur des données bien plus complètes. Il aborde trois questions :
 
 1. **Où** les grands dauphins sont-ils observés dans le Parc, et ces zones correspondent-elles aux groupes connus ?
 2. **Dans quel habitat** : les zones fréquentées diffèrent-elles du milieu disponible par la profondeur ou la distance à la côte ?
@@ -225,7 +233,7 @@ Estimée secteur par secteur, la zone centrale mesure **`r fmt(val("Molène", 1,
 
 ### Habitat
 
-Les observations se situent à une profondeur médiane de **`r fmt(h_obs$prof_mediane_m, 1)` m** (intervalle interquartile : `r fmt(h_obs$prof_q25)`–`r fmt(h_obs$prof_q75)` m) contre `r fmt(h_dis$prof_mediane_m, 1)` m pour le milieu disponible (`r fmt(h_dis$prof_q25)`–`r fmt(h_dis$prof_q75)` m ; Wilcoxon, p `r fp(res$test_prof$p.value)`), et à **`r fmt(h_obs$dist_mediane_km, 1)` km de la côte** contre `r fmt(h_dis$dist_mediane_km, 1)` km (p `r fp(res$test_dist$p.value)`). Dans le modèle logistique, le **rapport de cotes** associé à la profondeur est de **`r fmt(or_prof$odds_ratio, 2)`** (IC 95 % : `r fmt(or_prof$ic95_bas, 2)`–`r fmt(or_prof$ic95_haut, 2)`) : la cote d'observation diminue lorsque la profondeur augmente. La profondeur étant très corrélée à la distance à la côte, ce coefficient traduit aussi l'effet de la proximité de la côte et ne mesure pas un effet propre de la profondeur. Les observations proches dans l'espace n'étant pas indépendantes, les p-values et l'intervalle de confiance sont optimistes. Surtout, le milieu disponible est tiré dans tout le Parc, alors que l'effort d'observation n'est pas uniforme. Les jeux opportunistes (iNaturalist, Observation.org, observations rassemblées par l'Observatoire Pelagis, CardObs) sont concentrés dans les eaux peu profondes, avec des profondeurs médianes de 6 à 20 m selon le jeu ; le mode d'observation (depuis la terre ou depuis un bateau) n'y est pas renseigné. À l'inverse, le survol aérien de 2010, qui couvrait l'ensemble du Parc selon un protocole, a surtout détecté des dauphins au large, au-dessus de fonds d'environ 80 m en médiane, dont une partie appartient peut-être à d'autres populations que les groupes côtiers. Une partie de l'écart traduit donc la répartition de l'effort plutôt qu'une sélection de l'habitat par les dauphins, et l'analyse mélange les deux groupes côtiers et les observations du large.
+Les observations se situent à une profondeur médiane de **`r fmt(h_obs$prof_mediane_m, 1)` m** (intervalle interquartile : `r fmt(h_obs$prof_q25)`–`r fmt(h_obs$prof_q75)` m) contre `r fmt(h_dis$prof_mediane_m, 1)` m pour le milieu disponible (`r fmt(h_dis$prof_q25)`–`r fmt(h_dis$prof_q75)` m ; Wilcoxon, p `r fp(res$test_prof$p.value)`), et à **`r fmt(h_obs$dist_mediane_km, 1)` km de la côte** contre `r fmt(h_dis$dist_mediane_km, 1)` km (p `r fp(res$test_dist$p.value)`). Dans le modèle logistique, le **rapport de cotes** associé à la profondeur est de **`r fmt(or_prof$odds_ratio, 2)`** (IC 95 % : `r fmt(or_prof$ic95_bas, 2)`–`r fmt(or_prof$ic95_haut, 2)`) : la cote d'observation diminue lorsque la profondeur augmente. Il s'agit d'une association entre la profondeur et la répartition des observations dans ce jeu de données, et non d'une mesure de sélection de l'habitat. La profondeur étant très corrélée à la distance à la côte, ce coefficient traduit aussi l'effet de la proximité de la côte et ne mesure pas un effet propre de la profondeur. Les observations proches dans l'espace n'étant pas indépendantes, les p-values et l'intervalle de confiance sont optimistes. Surtout, le milieu disponible est tiré dans tout le Parc, alors que l'effort d'observation n'est pas uniforme. Les jeux opportunistes (iNaturalist, Observation.org, observations rassemblées par l'Observatoire Pelagis, CardObs) sont concentrés dans les eaux peu profondes, avec des profondeurs médianes de 6 à 20 m selon le jeu ; le mode d'observation (depuis la terre ou depuis un bateau) n'y est pas renseigné. À l'inverse, le survol aérien de 2010, qui couvrait l'ensemble du Parc selon un protocole, a surtout détecté des dauphins au large, au-dessus de fonds d'environ 80 m en médiane, dont une partie appartient peut-être à d'autres populations que les groupes côtiers. Une partie de l'écart traduit donc la répartition de l'effort plutôt qu'une sélection de l'habitat par les dauphins, et l'analyse mélange les deux groupes côtiers et les observations du large.
 
 ![Profondeur et distance à la côte : observations et milieu disponible](outputs/figures/habitat_profondeur_cote.png){#fig-habitat width=66%}
 
@@ -317,20 +325,14 @@ Les suivis par photo-identification décrivent deux groupes côtiers résidents.
 - **Hétérogénéité temporelle** : les observations couvrent `r res$annees[1]`–`r res$annees[2]` (`r fmt(pct_depuis2014)` % depuis 2014), alors que le trafic correspond à l'année 2023 ; la répartition des dauphins comme celle des observateurs a pu évoluer sur cette période.
 - **Dépendance des observations** : l'agrégation à une observation par km² et par jour limite les répétitions, mais des observations proches dans l'espace ou répétées sur un même site peuvent concerner le même groupe ; la taille effective de l'échantillon est inférieure au nombre d'observations.
 - **Trafic côtier sous-estimé** : l'AIS n'est obligatoire que pour une partie des navires ; les petites embarcations de plaisance et de pêche n'y figurent pas.
-- **Résolution** : bathymétrie à environ `r fmt(round(res$resolution_bathy_m, -1))` m, qui dessine grossièrement les petites îles, et trafic à 1 km.
+- **Résolution et effets de bord** : bathymétrie à environ `r fmt(round(res$resolution_bathy_m, -1))` m, qui dessine grossièrement les petites îles, et trafic à 1 km. La densité estimée est limitée à la mer du Parc ou du secteur : la part du noyau qui tombe à terre ou hors de la zone est écartée, ce qui peut déformer les contours près des côtes et des limites.
+- **Robustesse par source** : les concentrations n'ont pas été recalculées en excluant successivement les principaux jeux de données (survol aérien, iNaturalist, observations rassemblées par l'Observatoire Pelagis) ; ce test permettrait de vérifier qu'elles ne dépendent pas d'une seule source.
 
 ## Conclusion
 
-Cet exercice applique à l'Iroise une chaîne d'analyse complète et reproductible : téléchargement et contrôle qualité des données, bancarisation dans une base PostGIS, estimation des zones de concentration, analyse de l'habitat et croisement avec le trafic maritime. Le contrôle qualité a mis en évidence deux défauts des données publiques — positions ramenées sur une grille d'atlas et doublons aux coordonnées dégradées — qui déplaçaient notamment la zone centrale de Molène. À partir de `r fmt(res$n_parc)` observations retenues sur `r fmt(j$n_restant[1])` enregistrements bruts, les observations publiques se concentrent en deux secteurs côtiers, autour de l'archipel de Molène et de l'île de Sein, en accord général avec les zones connues par les suivis de terrain. Cette localisation est stable ; les surfaces estimées ne le sont pas, et ces données ne permettent pas à elles seules de délimiter le domaine vital des deux groupes, de démontrer une sélection de l'habitat ou de quantifier une exposition au trafic. Les observations sont nettement plus côtières et moins profondes que le milieu disponible, en partie du fait de la répartition des observateurs.`r if (trafic_ok) { if (isTRUE(inverse)) " La densité de navires équipés de l'AIS est plus élevée dans les zones de concentration que dans l'ensemble du Parc, mais cet écart tient à la proximité de la côte : comparées aux autres eaux côtières, les zones de concentration sont moins fréquentées par la plaisance et la voile, et seuls les navires à passagers, sur les liaisons vers les îles, y sont plus présents. Ce résultat illustre l'importance de contrôler les facteurs de confusion avant d'interpréter un chevauchement." else " La densité de navires équipés de l'AIS est plus élevée dans les zones de concentration que dans le reste du Parc, en particulier pour la plaisance, la voile et les navires à passagers, ce qui signale des secteurs de chevauchement potentiel, à interpréter avec prudence compte tenu de l'effort d'observation." } else ""`
+Cet exercice met en œuvre une chaîne d'analyse reproductible : téléchargement et contrôle qualité des données, bancarisation dans une base PostGIS, estimation des zones de concentration, analyse de l'habitat et croisement avec le trafic maritime. Le contrôle qualité a mis en évidence deux défauts des données publiques — positions ramenées sur une grille d'atlas et doublons aux coordonnées dégradées — qui déplaçaient notamment la zone centrale de Molène. À partir de `r fmt(res$n_parc)` observations retenues sur `r fmt(j$n_restant[1])` enregistrements bruts, les observations publiques se concentrent en deux secteurs côtiers, autour de l'archipel de Molène et de l'île de Sein, en accord général avec les zones connues par les suivis de terrain. Cette localisation est stable ; les surfaces estimées ne le sont pas, et ces données ne permettent pas à elles seules de délimiter le domaine vital des deux groupes, de démontrer une sélection de l'habitat ou de quantifier une exposition au trafic. Les observations sont nettement plus côtières et moins profondes que le milieu disponible, en partie du fait de la répartition des observateurs.`r if (trafic_ok) { if (isTRUE(inverse)) " La densité de navires équipés de l'AIS est plus élevée dans les zones de concentration que dans l'ensemble du Parc, mais cet écart tient à la proximité de la côte : comparées aux autres eaux côtières, les zones de concentration sont moins fréquentées par la plaisance et la voile, et seuls les navires à passagers, sur les liaisons vers les îles, y sont plus présents. Ce résultat illustre l'importance de contrôler les facteurs de confusion avant d'interpréter un chevauchement." else " La densité de navires équipés de l'AIS est plus élevée dans les zones de concentration que dans le reste du Parc, en particulier pour la plaisance, la voile et les navires à passagers, ce qui signale des secteurs de chevauchement potentiel, à interpréter avec prudence compte tenu de l'effort d'observation." } else ""`
 
 Les écarts avec les suivis par photo-identification, en particulier à Sein, montrent les limites des données opportunistes pour estimer un domaine vital. Le script a été conçu pour intégrer d'autres données : un fichier d'observations (longitude, latitude, date) déposé dans le dossier prévu suffit pour relancer l'ensemble de l'analyse.
-
-**Utilisations possibles.** Appliqué à des données assorties d'un effort d'observation connu, ce type d'analyse pourrait notamment servir à :
-
-- **localiser les secteurs où l'espèce et les activités nautiques se superposent** ;
-- **constituer un état de référence reproductible**, recalculable à intervalles réguliers ;
-- **produire des cartes de synthèse** pour les échanges avec les acteurs locaux ;
-- **comparer les sites** au moyen d'une méthode identique, entre l'Iroise et le Cap Corse.
 
 ## Lexique
 
@@ -358,3 +360,30 @@ Les écarts avec les suivis par photo-identification, en particulier à Sein, mo
 **Sources de données** (consultées en octobre 2026) : OBIS (obis.org) ; GBIF (gbif.org) ; NOAA National Centers for Environmental Information (2022), *ETOPO 2022 15 Arc-Second Global Relief Model*, doi:10.25921/fd45-gt74 ; EMODnet Human Activities, *Vessel density maps*, 2023 ; PatriNat (OFB, MNHN, CNRS, IRD), base des espaces protégés, juillet 2026.
 
 *Code, données nettoyées et résultats : <https://github.com/gwladys-helaine/delfinu-iroise>. Analyse entièrement reproductible, réalisée sous R (sf, terra, ggplot2), PostgreSQL/PostGIS, QGIS et Quarto.*
+
+```{=typst}
+#pagebreak()
+```
+
+## Annexe – Sources de données identifiées (liste non exhaustive)
+
+Ce tableau rassemble les sources repérées au cours de cet exercice, à partir de documents publics consultés en octobre 2026. Il n'est pas exhaustif : d'autres données existent certainement, notamment au sein du Parc et de ses partenaires, et les informations sur les données non publiques ne sont données qu'à titre indicatif. Il indique pour chaque source si l'effort d'observation est connu, condition nécessaire pour distinguer la présence des dauphins de celle des observateurs.
+
+```{=typst}
+#set par(justify: false)
+#set text(hyphenate: false)
+```
+
+| Source (producteur) | Contenu | Effort | Accès | Apport pour le groupe de Sein |
+|:-----------------|:------------------|:------|:-------------|:------------------|
+| Photo-identification, groupe de Sein (Parc, OFB) | Sorties en mer ; données de domaine vital depuis 2014 d'après les comptes rendus | Oui | Interne ; comptes rendus publics | Source principale : domaine vital par groupe ou par individu |
+| Photo-identification, groupe de Molène (GECC) | Catalogue depuis 2007 ; capture-recapture 2014–2020 | Oui | Rapports publics ; données auprès du GECC | Comparaison entre groupes, échanges d'individus |
+| Programme génétique Molène–Sein (Parc, OFB, MNHN) | Prélèvements non invasifs, 2021–2023 | — | Partenaires | Liens entre côtiers, large et passage |
+| OBSenMER (GECC) | Observations participatives, mode avec effort, activités humaines | Partiel | En ligne ; extraction auprès du GECC | Observations récentes avec effort ; usages hors AIS |
+| Suivis aériens Pelagis, dont SAMM | Survols selon un protocole, 2002–2020 | Non publié | Positions publiques (CC-BY-NC) ; effort sur demande | Répartition au large |
+| Observations opportunistes (GBIF, OBIS) | Observations ponctuelles, 2002–2026 | Non | Public | Présence seule ; utilisées dans cette note |
+| OpenObs (SINP, PatriNat) | Agrégation nationale | Variable | Public, localisations parfois dégradées | Compléments à GBIF, à dédoublonner |
+| Réseau national d'échouages (Pelagis) | Échouages, causes de mortalité | — | Bilans publiés ; données sur demande | Indices d'interactions, avec prudence |
+| Densité de navires (EMODnet) | Trafic AIS par catégorie | — | Public | Utilisée dans cette note |
+| Usages nautiques hors AIS | Plaisance légère, kayak, plongée, sorties d'observation | — | À rechercher | Pression non couverte par l'AIS |
+| Bathymétrie HOMONIM (SHOM) | MNT à environ 111 m | — | Public (Licence Ouverte) | Habitat plus fin que ETOPO (~480 m) |
