@@ -1,4 +1,4 @@
-Requêtes exécutées sur la base delfinu le 20/10/2026 17:32
+Requêtes exécutées sur la base delfinu le 20/10/2026 18:12
 
 == Nombre d'observations par source et par décennie
 SELECT source,
@@ -39,7 +39,7 @@ WHERE ST_DWithin(geom,
   n_moins_5km_sein premiere_annee derniere_annee
 1               25           2004           2026
 
-== Surface du domaine vital par secteur et par niveau (km²)
+== Surfaces des zones par secteur et par niveau (km²)
 SELECT secteur, facteur_h, niveau,
        ROUND((ST_Area(geom) / 1e6)::numeric, 1) AS surface_km2
 FROM iroise.domaine_vital_secteurs
@@ -56,20 +56,20 @@ ORDER BY secteur, facteur_h DESC, niveau;
 7    Sein       0.5 KDE 50 %        14.4
 8    Sein       0.5 KDE 95 %        76.6
 
-== Part des observations du Parc situées dans un cœur de secteur (href)
+== Part des observations du Parc situées dans une zone centrale
 SELECT ROUND(100.0 * AVG(
          CASE WHEN EXISTS (SELECT 1 FROM iroise.domaine_vital_secteurs d
                            WHERE d.niveau = 'KDE 50 %' AND d.facteur_h = 1
                              AND ST_Within(o.geom, d.geom))
-              THEN 1 ELSE 0 END), 1) AS pct_dans_un_coeur
+              THEN 1 ELSE 0 END), 1) AS pct_dans_zone_centrale
 FROM iroise.observations o
 JOIN iroise.parc p ON ST_Within(o.geom, p.geom);
 
 
-  pct_dans_un_coeur
-1              47.1
+  pct_dans_zone_centrale
+1                   47.1
 
-== Distance entre les deux cœurs (km)
+== Distance entre les deux zones centrales (km)
 SELECT ROUND((ST_Distance(a.geom, b.geom) / 1000)::numeric, 1) AS distance_km
 FROM iroise.domaine_vital_secteurs a, iroise.domaine_vital_secteurs b
 WHERE a.secteur = 'Molène' AND b.secteur = 'Sein'
@@ -80,7 +80,7 @@ WHERE a.secteur = 'Molène' AND b.secteur = 'Sein'
   distance_km
 1          23
 
-== Contrôle qualité : doublons éventuels (même position à 100 m et même date)
+== Contrôle qualité : doublons éventuels (même date, moins de 100 m)
 SELECT a.date, COUNT(*) AS n
 FROM iroise.observations a
 JOIN iroise.observations b
