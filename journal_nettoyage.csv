@@ -1,0 +1,14 @@
+etape,n_restant
+Données brutes (OBIS + GBIF + complémentaires),918
+Coordonnées présentes et valides,918
+Données d'absence exclues,918
+Spécimens de collection exclus (musées),917
+Données d'échouages exclues,744
+Doublons supprimés (même position à 100 m près et même date),635
+Date connue et année >= 2000,612
+Précision de localisation <= 5 km,376
+Positions sur une grille de 5' exclues (centres de maille d'atlas),294
+Points à terre exclus,259
+"Doublons floutés exclus (même jour, < 10 km, autre jeu plus précis)",231
+Agrégation : 1 observation par km² et par jour,226
+Observations situées dans le Parc,102

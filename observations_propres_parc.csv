@@ -1,0 +1,103 @@
+source,id_source,longitude,latitude,date,annee,profondeur,incertitude_m,type_obs,jeu_donnees,effectif
+OBIS,04f48584-bb24-44e2-8b9b-719d249def16,-4.963691,48.208367,2002-08-08,2002,-70.8576889038086,NA,HUMAN_OBSERVATION,Observatoire Pelagis aerial surveys 2002-2021,NA
+OBIS,07c02a2a-c083-4b6f-8278-77f803ce812d,-4.7996660632,48.341823073,2016-09-18,2016,-10.804990768432617,1600,HUMAN_OBSERVATION,iNaturalist research-grade observations,NA
+OBIS,16eb8bf3-b7d7-4368-865a-5ae737df560d,-4.8345967019,48.0429830738,2023-10-24,2023,-5.642043590545654,188,HUMAN_OBSERVATION,iNaturalist research-grade observations,NA
+OBIS,21305621-2c50-4948-8038-72196502f653,-4.7789260181,48.3285543321,2023-07-20,2023,-6.474051475524902,31,HUMAN_OBSERVATION,iNaturalist research-grade observations,NA
+OBIS,30ae0a23-a323-4e47-b0bb-a191e722ae2d,-4.795826,48.32893,2016-09-21,2016,-11.521429061889648,NA,HUMAN_OBSERVATION,Observatoire Pelagis boat surveys 2003-2021,NA
+OBIS,32005691-4361-4c06-b9c9-3738f4e16b1e,-4.7710111365,48.324996272,2025-09-07,2025,-7.114408016204834,251,HUMAN_OBSERVATION,iNaturalist research-grade observations,NA
+OBIS,3f48e621-212e-4234-a2ff-cbb054419273,-4.7907020835,48.3610949787,2025-07-21,2025,-9.00191879272461,260,HUMAN_OBSERVATION,iNaturalist research-grade observations,NA
+OBIS,45b196b3-c85a-4351-8b0a-a21b55d3f1fa,-4.776818119,48.3285556172,2023-05-18,2023,-6.474051475524902,2451,HUMAN_OBSERVATION,iNaturalist research-grade observations,NA
+OBIS,4a5efcc2-5fbf-4ee8-b6a1-71521d64ccc7,-4.8417554051,48.0445494438,2024-10-19,2024,-6.450163841247559,166,HUMAN_OBSERVATION,iNaturalist research-grade observations,NA
+OBIS,5034dfd0-aa9a-4038-b3f9-f29380fe8598,-4.793854,48.326423,2020-09-23,2020,-11.290037155151367,NA,HUMAN_OBSERVATION,Observatoire Pelagis boat surveys 2003-2021,NA
+OBIS,519f39d6-bb35-4221-b7f9-7f6e36cb37a4,-4.804825,48.336338,2020-09-23,2020,-10.31109619140625,NA,HUMAN_OBSERVATION,Observatoire Pelagis boat surveys 2003-2021,NA
+OBIS,5bd02cc2-ec67-464f-b0ce-93cd7197d5de,-5.084594,48.295775,2020-11-13,2020,-77.34039306640625,NA,HUMAN_OBSERVATION,Observatoire Pelagis boat surveys 2003-2021,NA
+OBIS,662e85df-b79c-4f04-bb4f-b87679e4d17b,-4.5709991246,48.2411382385,2017-04-14,2017,-11.113109588623047,3769,HUMAN_OBSERVATION,iNaturalist research-grade observations,NA
+OBIS,827799cb-b454-4adf-af3d-91f4bade32dc,-4.7941459448,48.3619579737,2022-08-17,2022,-11.796717643737793,31,HUMAN_OBSERVATION,iNaturalist research-grade observations,NA
+OBIS,83a9e15f-24f0-4f37-b420-cc8197be6b35,-4.8300548963,48.350293565,2022-06-21,2022,-4.227856159210205,1694,HUMAN_OBSERVATION,iNaturalist research-grade observations,NA
+OBIS,91b9f743-1d0d-461e-bd4f-3699b8bb9705,-4.8288371318,48.0784425507,2025-08-24,2025,-52.754669189453125,1953,HUMAN_OBSERVATION,iNaturalist research-grade observations,NA
+OBIS,a0ed8aa1-81a3-48e0-bb70-805fdd3ca109,-5.04033,48.47102,2012-05-19,2012,-35.633270263671875,NA,HUMAN_OBSERVATION,Observatoire Pelagis aerial surveys 2002-2021,NA
+OBIS,adbbc667-ee88-4d3c-ac3d-813080111e49,-4.8487221162,48.04213416,2019-10-17,2019,-3.0097644329071045,122,HUMAN_OBSERVATION,iNaturalist research-grade observations,NA
+OBIS,bec36917-e9df-4462-ac44-130a4c660248,-4.7799863507,48.3280836221,2023-08-03,2023,-9.886454582214355,122,HUMAN_OBSERVATION,iNaturalist research-grade observations,NA
+OBIS,c2c0db41-ee9c-4348-b1aa-89295bf3fa9f,-4.849026852,48.0294416571,2023-05-21,2023,-6.491159915924072,31,HUMAN_OBSERVATION,iNaturalist research-grade observations,NA
+OBIS,c52aecf7-0e44-494c-9738-70d057c30c2c,-4.812169,48.363667,2016-10-14,2016,-11.081170082092285,NA,HUMAN_OBSERVATION,Observatoire Pelagis boat surveys 2003-2021,NA
+OBIS,ca4ddda4-712a-4d3a-8b2a-f3ea394303b7,-4.8943094901,48.4527521723,2014-09-24,2014,-47.656429290771484,4373,HUMAN_OBSERVATION,iNaturalist research-grade observations,NA
+OBIS,e8890d0e-16ed-4a89-ba90-0689e291ae4b,-4.9858989446,48.4308297639,2013-10-11,2013,-21.69053840637207,3388,HUMAN_OBSERVATION,iNaturalist research-grade observations,NA
+OBIS,f0a2bf67-699e-4c01-be4f-b5188e4454d7,-4.809111,48.342128,2017-10-04,2017,-10.495810508728027,NA,HUMAN_OBSERVATION,Observatoire Pelagis boat surveys 2003-2021,NA
+OBIS,f790f7f8-23ff-44cf-a197-e1b3bc3a0ce2,-4.8423003689,48.0406331017,2025-08-24,2025,-4.268889427185059,1417,HUMAN_OBSERVATION,iNaturalist research-grade observations,NA
+OBIS,ffe444c9-3eb2-4989-8013-f87f70889dd9,-4.8644511819,48.0318663051,2021-10-13,2021,-2.4195821285247803,31,HUMAN_OBSERVATION,iNaturalist research-grade observations,NA
+GBIF,6520588132,-4.79064,48.430401,2026-08-24,2026,-6.513644218444824,NA,HUMAN_OBSERVATION,iNaturalist research-grade observations,NA
+GBIF,4986222433,-4.627433,48.26113,2024-11-12,2024,-1.2159018516540527,64,HUMAN_OBSERVATION,"Observation.org, Nature data from around the World",6
+GBIF,4547184531,-4.78965,48.36207,2023-08-03,2023,-9.00191879272461,NA,HUMAN_OBSERVATION,Visiolittoral : Base de données de la communauté de travail du Conservatoire du littoral-Visiolittoral : surveillance naturaliste des sites du Conservatoire du littoral,NA
+GBIF,3728894223,-4.782257,48.030713,2020-10-08,2020,-31.773860931396484,1000,HUMAN_OBSERVATION,"Observation.org, Nature data from around the World",1
+GBIF,4541689746,-4.84318,48.04303,2017-08-16,2017,-5.827319622039795,NA,HUMAN_OBSERVATION,CardObs : Observations naturalistes issues de l'outil CardObs-Données naturalistes de CHARBONNEAU Adrien,NA
+GBIF,2471843682,-4.8832,48.37265,2015-07-02,2015,-1.000010371208191,10,HUMAN_OBSERVATION,CardObs : Observations naturalistes issues de l'outil CardObs-Données naturalistes de Patrick HAFFNER,NA
+GBIF,4541718798,-4.92174,48.39263,2014-08-18,2014,-8.276386260986328,NA,HUMAN_OBSERVATION,CardObs : Observations naturalistes issues de l'outil CardObs-Données naturalistes de CHARBONNEAU Adrien,NA
+GBIF,2839371508,-5.022096,48.461652,2014-09-27,2014,-20.00080680847168,100,HUMAN_OBSERVATION,"Observation.org, Nature data from around the World",1
+GBIF,2839631609,-5.142001,48.447763,2014-10-11,2014,-10.63209342956543,100,HUMAN_OBSERVATION,"Observation.org, Nature data from around the World",4
+GBIF,2841247413,-5.135049,48.463417,2014-10-10,2014,-30.479042053222656,100,HUMAN_OBSERVATION,"Observation.org, Nature data from around the World",4
+GBIF,2835719329,-5.085668,48.480896,2013-01-03,2013,-30.086027145385742,100,HUMAN_OBSERVATION,"Observation.org, Nature data from around the World",10
+GBIF,2832397463,-4.829407,48.321378,2013-07-26,2013,-3.996450185775757,1000,HUMAN_OBSERVATION,"Observation.org, Nature data from around the World",15
+GBIF,2840153436,-4.81842,48.338725,2013-07-26,2013,-8.77937126159668,1000,HUMAN_OBSERVATION,"Observation.org, Nature data from around the World",15
+GBIF,2469111936,-4.816,48.033,2012-08-23,2012,-8.310994148254395,50,HUMAN_OBSERVATION,Observations opportunistes rassemblées par l'Observatoire PELAGIS - Observations opportunistes de mammifères marins de l'observatoire PELAGIS,NA
+GBIF,2469111668,-4.75966,48.04285,2012-09-02,2012,-27.110395431518555,50,HUMAN_OBSERVATION,Observations opportunistes rassemblées par l'Observatoire PELAGIS - Observations opportunistes de mammifères marins de l'observatoire PELAGIS,NA
+GBIF,2469112122,-4.83333,48.15,2012-09-21,2012,-54.22079849243164,50,HUMAN_OBSERVATION,Observations opportunistes rassemblées par l'Observatoire PELAGIS - Observations opportunistes de mammifères marins de l'observatoire PELAGIS,NA
+GBIF,2835454273,-4.816166,48.34972,2012-09-06,2012,-9.998164176940918,100,HUMAN_OBSERVATION,"Observation.org, Nature data from around the World",30
+GBIF,2835816158,-5.113485,48.481143,2012-10-10,2012,-22.30635643005371,10,HUMAN_OBSERVATION,"Observation.org, Nature data from around the World",10
+GBIF,3473236265,-4.83849,48.03129,2012-11-05,2012,-0.600469708442688,5,HUMAN_OBSERVATION,CardObs : Observations naturalistes issues de l'outil CardObs-Données naturalistes de Benoit FONTAINE,NA
+GBIF,2469109006,-4.84827,48.04446,2011-05-02,2011,-5.771979808807373,50,HUMAN_OBSERVATION,Observations opportunistes rassemblées par l'Observatoire PELAGIS - Observations opportunistes de mammifères marins de l'observatoire PELAGIS,NA
+GBIF,3473607616,-5.1131,48.41832,2011-08-19,2011,-73.55899810791016,1589,HUMAN_OBSERVATION,CardObs : Observations naturalistes issues de l'outil CardObs-Données naturalistes de Philippe GOURDAIN,NA
+GBIF,2469113068,-4.86683,48.04608,2011-10-12,2011,-2.573127508163452,50,HUMAN_OBSERVATION,Observations opportunistes rassemblées par l'Observatoire PELAGIS - Observations opportunistes de mammifères marins de l'observatoire PELAGIS,NA
+GBIF,2834343430,-5.015259,48.454253,2011-11-12,2011,-49.63050842285156,1000,HUMAN_OBSERVATION,"Observation.org, Nature data from around the World",1
+GBIF,2483665607,-4.67586,48.15231,2010-03-15,2010,-39.63617706298828,50,HUMAN_OBSERVATION,Suivi aérien des mammifères marins dans le périmètre du Parc naturel marin d'Iroise en 2010,NA
+GBIF,2469110065,-4.88675,48.3301,2010-07-28,2010,-7.818063259124756,50,HUMAN_OBSERVATION,Observations opportunistes rassemblées par l'Observatoire PELAGIS - Observations opportunistes de mammifères marins de l'observatoire PELAGIS,NA
+GBIF,2469110160,-4.8318,48.3398,2010-07-19,2010,-4.186847686767578,50,HUMAN_OBSERVATION,Observations opportunistes rassemblées par l'Observatoire PELAGIS - Observations opportunistes de mammifères marins de l'observatoire PELAGIS,NA
+GBIF,2469110375,-4.88997,48.32542,2010-07-18,2010,-7.772334575653076,50,HUMAN_OBSERVATION,Observations opportunistes rassemblées par l'Observatoire PELAGIS - Observations opportunistes de mammifères marins de l'observatoire PELAGIS,NA
+GBIF,2469110902,-4.85175,48.32595,2010-07-11,2010,-5.133488655090332,50,HUMAN_OBSERVATION,Observations opportunistes rassemblées par l'Observatoire PELAGIS - Observations opportunistes de mammifères marins de l'observatoire PELAGIS,NA
+GBIF,2469112561,-4.875,48.32265,2010-07-30,2010,-5.001679420471191,50,HUMAN_OBSERVATION,Observations opportunistes rassemblées par l'Observatoire PELAGIS - Observations opportunistes de mammifères marins de l'observatoire PELAGIS,NA
+GBIF,2469112742,-4.87847,48.33908,2010-07-24,2010,-4.537415981292725,50,HUMAN_OBSERVATION,Observations opportunistes rassemblées par l'Observatoire PELAGIS - Observations opportunistes de mammifères marins de l'observatoire PELAGIS,NA
+GBIF,2469112978,-4.87838,48.34162,2010-07-09,2010,-5.332585334777832,50,HUMAN_OBSERVATION,Observations opportunistes rassemblées par l'Observatoire PELAGIS - Observations opportunistes de mammifères marins de l'observatoire PELAGIS,NA
+GBIF,2469108061,-5.36833,48.3685,2010-08-27,2010,-99.21897888183594,50,HUMAN_OBSERVATION,Observations opportunistes rassemblées par l'Observatoire PELAGIS - Observations opportunistes de mammifères marins de l'observatoire PELAGIS,NA
+GBIF,2483663602,-5.17851,48.29265,2010-09-27,2010,-101.46098327636719,50,HUMAN_OBSERVATION,Suivi aérien des mammifères marins dans le périmètre du Parc naturel marin d'Iroise en 2010,NA
+GBIF,2483663606,-4.92864,48.03552,2010-09-27,2010,-13.603879928588867,50,HUMAN_OBSERVATION,Suivi aérien des mammifères marins dans le périmètre du Parc naturel marin d'Iroise en 2010,NA
+GBIF,2483663607,-4.88296,48.03497,2010-09-27,2010,-4.4507012367248535,50,HUMAN_OBSERVATION,Suivi aérien des mammifères marins dans le périmètre du Parc naturel marin d'Iroise en 2010,NA
+GBIF,2483663608,-4.7066,48.20333,2010-09-27,2010,-39.549190521240234,50,HUMAN_OBSERVATION,Suivi aérien des mammifères marins dans le périmètre du Parc naturel marin d'Iroise en 2010,NA
+GBIF,2483663609,-5.37488,48.29881,2010-09-27,2010,-110.0697250366211,50,HUMAN_OBSERVATION,Suivi aérien des mammifères marins dans le périmètre du Parc naturel marin d'Iroise en 2010,NA
+GBIF,2483664601,-5.2604,48.20957,2010-09-27,2010,-110.98124694824219,50,HUMAN_OBSERVATION,Suivi aérien des mammifères marins dans le périmètre du Parc naturel marin d'Iroise en 2010,NA
+GBIF,2483664602,-5.13576,48.20323,2010-09-27,2010,-96.0292739868164,50,HUMAN_OBSERVATION,Suivi aérien des mammifères marins dans le périmètre du Parc naturel marin d'Iroise en 2010,NA
+GBIF,2483664603,-5.12529,48.0632,2010-09-27,2010,-85.08385467529297,50,HUMAN_OBSERVATION,Suivi aérien des mammifères marins dans le périmètre du Parc naturel marin d'Iroise en 2010,NA
+GBIF,2483664604,-5.04749,48.29392,2010-09-27,2010,-78.5429916381836,50,HUMAN_OBSERVATION,Suivi aérien des mammifères marins dans le périmètre du Parc naturel marin d'Iroise en 2010,NA
+GBIF,2483664605,-4.91185,48.27156,2010-09-27,2010,-61.021888732910156,50,HUMAN_OBSERVATION,Suivi aérien des mammifères marins dans le périmètre du Parc naturel marin d'Iroise en 2010,NA
+GBIF,2483664606,-4.82415,48.20448,2010-09-27,2010,-47.613101959228516,50,HUMAN_OBSERVATION,Suivi aérien des mammifères marins dans le périmètre du Parc naturel marin d'Iroise en 2010,NA
+GBIF,2483664608,-5.13194,48.03967,2010-09-27,2010,-73.88855743408203,50,HUMAN_OBSERVATION,Suivi aérien des mammifères marins dans le périmètre du Parc naturel marin d'Iroise en 2010,NA
+GBIF,2483664621,-5.30965,48.03636,2010-09-27,2010,-105.65956115722656,50,HUMAN_OBSERVATION,Suivi aérien des mammifères marins dans le périmètre du Parc naturel marin d'Iroise en 2010,NA
+GBIF,2483665603,-5.12539,48.20298,2010-09-27,2010,-94.61958312988281,50,HUMAN_OBSERVATION,Suivi aérien des mammifères marins dans le périmètre du Parc naturel marin d'Iroise en 2010,NA
+GBIF,2483665604,-5.06576,48.29399,2010-09-27,2010,-78.20915985107422,50,HUMAN_OBSERVATION,Suivi aérien des mammifères marins dans le périmètre du Parc naturel marin d'Iroise en 2010,NA
+GBIF,2483665605,-4.9241,48.29203,2010-09-27,2010,-55.228965759277344,50,HUMAN_OBSERVATION,Suivi aérien des mammifères marins dans le périmètre du Parc naturel marin d'Iroise en 2010,NA
+GBIF,2483665606,-4.84223,48.29126,2010-09-27,2010,-35.64817810058594,50,HUMAN_OBSERVATION,Suivi aérien des mammifères marins dans le périmètre du Parc naturel marin d'Iroise en 2010,NA
+GBIF,2483665608,-5.35459,48.29841,2010-09-27,2010,-109.98560333251953,50,HUMAN_OBSERVATION,Suivi aérien des mammifères marins dans le périmètre du Parc naturel marin d'Iroise en 2010,NA
+GBIF,2483666601,-5.28251,48.29695,2010-09-27,2010,-105.9268569946289,50,HUMAN_OBSERVATION,Suivi aérien des mammifères marins dans le périmètre du Parc naturel marin d'Iroise en 2010,NA
+GBIF,2483666606,-4.89124,48.03524,2010-09-27,2010,-4.324370861053467,50,HUMAN_OBSERVATION,Suivi aérien des mammifères marins dans le périmètre du Parc naturel marin d'Iroise en 2010,NA
+GBIF,2483666607,-4.75224,48.18425,2010-09-27,2010,-42.72304916381836,50,HUMAN_OBSERVATION,Suivi aérien des mammifères marins dans le périmètre du Parc naturel marin d'Iroise en 2010,NA
+GBIF,2483666610,-5.10696,48.06282,2010-09-27,2010,-82.255706787109375,50,HUMAN_OBSERVATION,Suivi aérien des mammifères marins dans le périmètre du Parc naturel marin d'Iroise en 2010,NA
+GBIF,2483666621,-5.35549,48.12458,2010-09-27,2010,-115.69361114501953,50,HUMAN_OBSERVATION,Suivi aérien des mammifères marins dans le périmètre du Parc naturel marin d'Iroise en 2010,NA
+GBIF,2469110759,-4.79856,48.03274,2009-07-02,2009,-22.68938446044922,50,HUMAN_OBSERVATION,Observations opportunistes rassemblées par l'Observatoire PELAGIS - Observations opportunistes de mammifères marins de l'observatoire PELAGIS,NA
+GBIF,2844303169,-4.856414,48.363828,2009-08-11,2009,-3.8535449504852295,100,HUMAN_OBSERVATION,"Observation.org, Nature data from around the World",10
+GBIF,2469109928,-5.40206,48.39197,2009-09-05,2009,-112.38687133789062,50,HUMAN_OBSERVATION,Observations opportunistes rassemblées par l'Observatoire PELAGIS - Observations opportunistes de mammifères marins de l'observatoire PELAGIS,NA
+GBIF,2842158338,-4.982758,48.467367,2008-10-01,2008,-72.93296813964844,1000,HUMAN_OBSERVATION,"Observation.org, Nature data from around the World",1
+GBIF,2469111778,-4.7966,48.35132,2005-08-10,2005,-10.713766098022461,50,HUMAN_OBSERVATION,Observations opportunistes rassemblées par l'Observatoire PELAGIS - Observations opportunistes de mammifères marins de l'observatoire PELAGIS,NA
+GBIF,2472468353,-4.7966,48.36317,2005-08-10,2005,-13.412327766418457,50,HUMAN_OBSERVATION,Océanopolis mammifères marins en Bretagne 1993-2015,NA
+GBIF,2469110018,-4.8387,48.04,2004-05-28,2004,-3.0227859020233154,50,HUMAN_OBSERVATION,Observations opportunistes rassemblées par l'Observatoire PELAGIS - Observations opportunistes de mammifères marins de l'observatoire PELAGIS,NA
+GBIF,2469112749,-4.81467,48.38517,2004-07-28,2004,-17.801986694335938,50,HUMAN_OBSERVATION,Observations opportunistes rassemblées par l'Observatoire PELAGIS - Observations opportunistes de mammifères marins de l'observatoire PELAGIS,NA
+GBIF,2469110931,-4.81502,48.3567,2004-08-05,2004,-9.75375747680664,50,HUMAN_OBSERVATION,Observations opportunistes rassemblées par l'Observatoire PELAGIS - Observations opportunistes de mammifères marins de l'observatoire PELAGIS,NA
+GBIF,2469111607,-4.802,48.3435,2004-08-15,2004,-10.844070434570312,50,HUMAN_OBSERVATION,Observations opportunistes rassemblées par l'Observatoire PELAGIS - Observations opportunistes de mammifères marins de l'observatoire PELAGIS,NA
+GBIF,2469113101,-4.8045,48.41567,2004-08-15,2004,-15.032341957092285,50,HUMAN_OBSERVATION,Observations opportunistes rassemblées par l'Observatoire PELAGIS - Observations opportunistes de mammifères marins de l'observatoire PELAGIS,NA
+GBIF,2469112453,-4.6955,48.3395,2003-08-19,2003,-6.835305213928223,50,HUMAN_OBSERVATION,Observations opportunistes rassemblées par l'Observatoire PELAGIS - Observations opportunistes de mammifères marins de l'observatoire PELAGIS,NA
+GBIF,3472774085,-4.92307,48.44091,2002-07-15,2002,-41.12497329711914,5000,HUMAN_OBSERVATION,Inventaire des Mammifères de France - Inventaire des Mammifères marins de France (métropole et outre-mer),NA
+GBIF,3472772937,-4.46818,48.10899,2003-08-21,2003,-28.7220458984375,5000,HUMAN_OBSERVATION,Inventaire des Mammifères de France - Inventaire des Mammifères marins de France (métropole et outre-mer),NA
+GBIF,3472773157,-5.05758,48.43182,2002-03-28,2002,-53.27564239501953,5000,HUMAN_OBSERVATION,Inventaire des Mammifères de France - Inventaire des Mammifères marins de France (métropole et outre-mer),NA
+GBIF,3472773172,-4.73561,48.09169,2003-04-26,2003,-47.02609634399414,5000,HUMAN_OBSERVATION,Inventaire des Mammifères de France - Inventaire des Mammifères marins de France (métropole et outre-mer),NA
+GBIF,3472773692,-4.89608,48.26187,2002-07-13,2002,-63.02206039428711,5000,HUMAN_OBSERVATION,Inventaire des Mammifères de France - Inventaire des Mammifères marins de France (métropole et outre-mer),NA
+GBIF,3472773918,-4.3344,48.11741,2002-12-25,2002,-15.698905944824219,5000,HUMAN_OBSERVATION,Inventaire des Mammifères de France - Inventaire des Mammifères marins de France (métropole et outre-mer),NA
+GBIF,3472774353,-4.60192,48.10041,2003-04-26,2003,-36.27592468261719,5000,HUMAN_OBSERVATION,Inventaire des Mammifères de France - Inventaire des Mammifères marins de France (métropole et outre-mer),NA
+GBIF,3472776937,-4.86926,48.08281,2002-08-07,2002,-65.02818298339844,5000,HUMAN_OBSERVATION,Inventaire des Mammifères de France - Inventaire des Mammifères marins de France (métropole et outre-mer),NA
+GBIF,3472778065,-4.78852,48.44985,2002-06-01,2002,-9.350019454956055,5000,HUMAN_OBSERVATION,Inventaire des Mammifères de France - Inventaire des Mammifères marins de France (métropole et outre-mer),NA
