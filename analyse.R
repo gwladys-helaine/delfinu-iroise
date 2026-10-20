@@ -1,8 +1,10 @@
 # =============================================================================
-#  Domaine vital du grand dauphin (Tursiops truncatus) dans le Parc naturel
-#  marin d'Iroise et chevauchement avec le trafic maritime
-#  (adaptation du script réalisé pour le Parc naturel marin du Cap Corse et
-#  de l'Agriate : seul le bloc « Site étudié » change)
+#  Grand dauphin (Tursiops truncatus) dans le Parc naturel marin d'Iroise :
+#  zones de concentration des observations et chevauchement avec le trafic
+#  maritime (hors pêche professionnelle)
+#  Version enrichie du script développé pour le Parc naturel marin du Cap Corse
+#  et de l'Agriate ; les paramètres propres au site sont regroupés dans le bloc
+#  « Site étudié ».
 #
 #  Analyse exploratoire à partir de données ouvertes
 #  Auteur : Gwladys Helaine — octobre 2026
@@ -11,10 +13,13 @@
 #   0. Paramètres et packages
 #   1. Périmètre d'étude (Parc)
 #   2. Bathymétrie et distance à la côte
-#   3. Observations : téléchargement OBIS + GBIF, bancarisation, nettoyage
-#   4. Domaine vital : noyau (KDE 50 % / 95 %) et polygone convexe (MCP 95 %)
+#   3. Observations : téléchargement OBIS + GBIF, bancarisation, nettoyage et
+#      contrôle qualité (positions sur grille, doublons aux coordonnées dégradées)
+#   4. Zones de concentration : noyau (KDE 50 % / 95 %) sur l'ensemble du Parc,
+#      puis par secteur (Molène, Sein) ; tests de sensibilité
 #   5. Habitat : comparaison utilisation / disponibilité (profondeur, côte)
-#   6. Pressions : trafic maritime (EMODnet) dans et hors du domaine vital
+#   6. Pressions : trafic maritime (EMODnet) dans et hors des zones, avec
+#      contrôle de l'effet de la proximité de la côte
 #   7. Cartes et figures
 #   8. Exports (données propres, couches SIG, tableaux, résultats)
 #
@@ -53,7 +58,7 @@ SITE <- list(
   motif    = "iroise",                        # mot cherché dans la base PatriNat
   # Emprise de téléchargement (WGS84), élargie automatiquement si besoin
   bbox     = c(xmin = -5.7, ymin = 47.85, xmax = -4.2, ymax = 48.7),
-  # Emprise approximative du Parc, utilisée SEULEMENT sans couche officielle
+  # Emprise approximative du Parc, utilisée seulement en l'absence de couche officielle
   bbox_parc_approx = c(xmin = -5.45, ymin = 47.95, xmax = -4.35, ymax = 48.6),
   # Isobathe repère et graduations de profondeur pour les cartes (mer d'Iroise
   # peu profonde : l'isobathe 200 m utilisée en Corse n'existe pas ici)
@@ -79,7 +84,7 @@ SITE <- list(
   # Secteurs analysés séparément (section 4d). Les suivis par photo-identification
   # décrivent deux groupes côtiers résidents : archipel de Molène (GECC, 2021) et
   # chaussée de Sein, jusqu'au phare d'Ar Men (Buanic, OFB, 2021-2022). Les boîtes
-  # ont été tracées d'après ces suivis, APRÈS une première estimation sur tout le
+  # ont été tracées d'après ces suivis, après une première estimation sur tout le
   # Parc qui montrait deux concentrations distinctes : elles servent à séparer
   # les deux groupes, ce ne sont pas des limites biologiques. Leur influence est
   # testée en section 4e (boîtes réduites et agrandies de 5 km).
@@ -529,7 +534,7 @@ obs_sf <- obs_sf |>
 # Certains inventaires nationaux republient des observations d'autres jeux avec
 # des coordonnées volontairement dégradées (précision 5 km) : même date, position
 # décalée de quelques km. Le filtre de doublons exact ne les voit pas. Une donnée
-# floutée est retirée si une observation d'un AUTRE jeu, plus précise, existe le
+# floutée est retirée si une observation plus précise d'un autre jeu existe le
 # même jour à moins de 10 km : on garde la version la plus précise.
 idx_flou <- which(!is.na(obs_sf$incertitude_m) &
                   obs_sf$incertitude_m >= INCERTITUDE_FLOUTEE_M)
@@ -902,7 +907,7 @@ fichiers_trafic <- fichiers_trafic[order(rang, nb)]
 resultats$trafic_disponible <- length(fichiers_trafic) > 0
 
 # Zones : cœur (KDE 50 %), domaine vital (50-95 %), reste du Parc.
-# Elles sont définies à partir du domaine vital PAR SECTEUR (section 4d), qui
+# Elles sont définies à partir des zones estimées par secteur (section 4d), qui
 # est le résultat principal : toutes les analyses de trafic portent ainsi sur
 # les mêmes contours que ceux des cartes. Le KDE sur l'ensemble du Parc n'est
 # utilisé qu'en repli, si aucun secteur n'a pu être estimé.
@@ -1156,7 +1161,7 @@ titre_espece <- function(debut, fin = "") {
 }
 
 # Vocabulaire des figures. Le KDE est calculé sur des observations
-# opportunistes : il décrit la densité des OBSERVATIONS, qui dépend à la fois de
+# opportunistes : il décrit la densité des observations, qui dépend à la fois de
 # la présence des dauphins et de l'endroit où se trouvent les observateurs. Les
 # figures parlent donc de « zones de concentration des observations » ; le lien
 # avec le domaine vital des groupes est discuté dans la note.
@@ -1183,7 +1188,7 @@ if (!is.null(secteurs_dv)) {
 }
 resultats$n_hors_secteur <- sum(!dans_secteur)
 
-# Contours affichés sur les cartes générales : domaine vital PAR SECTEUR
+# Contours affichés sur les cartes générales : zones estimées par secteur
 # (résultat principal). L'estimation sur l'ensemble du Parc n'est pas tracée,
 # pour ne pas montrer deux domaines vitaux sur la même carte : ses surfaces
 # restent dans outputs/tableaux/ et dans le GeoPackage (domaine_vital_kde).

@@ -25,29 +25,29 @@ WHERE ST_DWithin(geom,
                  ST_Transform(ST_SetSRID(ST_MakePoint(-4.851, 48.038), 4326), 2154),
                  5000);
 
--- @Surface du domaine vital par secteur et par niveau (km²)
+-- @Surfaces des zones par secteur et par niveau (km²)
 SELECT secteur, facteur_h, niveau,
        ROUND((ST_Area(geom) / 1e6)::numeric, 1) AS surface_km2
 FROM iroise.domaine_vital_secteurs
 ORDER BY secteur, facteur_h DESC, niveau;
 
--- @Part des observations du Parc situées dans un cœur de secteur (href)
+-- @Part des observations du Parc situées dans une zone centrale
 SELECT ROUND(100.0 * AVG(
          CASE WHEN EXISTS (SELECT 1 FROM iroise.domaine_vital_secteurs d
                            WHERE d.niveau = 'KDE 50 %' AND d.facteur_h = 1
                              AND ST_Within(o.geom, d.geom))
-              THEN 1 ELSE 0 END), 1) AS pct_dans_un_coeur
+              THEN 1 ELSE 0 END), 1) AS pct_dans_zone_centrale
 FROM iroise.observations o
 JOIN iroise.parc p ON ST_Within(o.geom, p.geom);
 
--- @Distance entre les deux cœurs (km)
+-- @Distance entre les deux zones centrales (km)
 SELECT ROUND((ST_Distance(a.geom, b.geom) / 1000)::numeric, 1) AS distance_km
 FROM iroise.domaine_vital_secteurs a, iroise.domaine_vital_secteurs b
 WHERE a.secteur = 'Molène' AND b.secteur = 'Sein'
   AND a.niveau = 'KDE 50 %' AND b.niveau = 'KDE 50 %'
   AND a.facteur_h = 1 AND b.facteur_h = 1;
 
--- @Contrôle qualité : doublons éventuels (même position à 100 m et même date)
+-- @Contrôle qualité : doublons éventuels (même date, moins de 100 m)
 SELECT a.date, COUNT(*) AS n
 FROM iroise.observations a
 JOIN iroise.observations b

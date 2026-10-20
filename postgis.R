@@ -99,8 +99,8 @@ for (i in seq_along(debuts)) {
   resultat <- dbGetQuery(con, sql)
   print(resultat)
   # Un fichier CSV par requête (nom simplifié : sans accents ni espaces)
-  fichier <- sprintf("%02d_%s.csv", i, gsub("[^a-z0-9]+", "_",
-                     tolower(iconv(nom, "UTF-8", "ASCII//TRANSLIT"))))
+  fichier <- sprintf("%02d_%s.csv", i, gsub("^_|_$", "", gsub("[^a-z0-9]+", "_",
+                     tolower(iconv(nom, "UTF-8", "ASCII//TRANSLIT")))))
   readr::write_csv(resultat, file.path(dossier_req, fichier))
   # Journal : intitulé, requête SQL, résultat
   cat("== ", nom, "\n", sql, "\n\n", paste(capture.output(print(resultat)), collapse = "\n"),

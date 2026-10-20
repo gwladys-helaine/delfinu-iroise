@@ -74,4 +74,8 @@ Contrôle qualité automatisé ; estimation par noyau (isoplèthes 50 % et 95 %)
 
 Une première version de cette démarche a été appliquée au Parc naturel marin du Cap Corse et de l'Agriate : [delfinu-domaine-vital](https://github.com/gwladys-helaine/delfinu-domaine-vital).
 
-*Les scripts ont été développés avec l'aide d'un assistant d'IA ; les choix méthodologiques, la vérification des résultats et leur interprétation sont de mon fait.*
+## Licence et utilisation des données
+
+Le code est librement réutilisable. Les observations restent soumises à la licence de leur jeu de données d'origine, indiquée sur OBIS et GBIF ; toute réutilisation doit citer ces jeux.
+
+*Le code a été écrit avec l'aide d'un assistant d'IA. J'ai conduit la démarche, contrôlé les données et les résultats, et arbitré les choix de méthode et d'interprétation.*
