@@ -8,6 +8,9 @@
 #
 #  Analyse exploratoire à partir de données ouvertes
 #  Auteure : Gwladys Helaine — octobre 2026
+#  Code écrit avec l'aide d'un assistant d'IA (Claude, Anthropic) ; démarche,
+#  contrôle des données et des résultats, choix de méthode et d'interprétation :
+#  Gwladys Helaine.
 #
 #  Étapes :
 #   0. Paramètres et packages
@@ -83,7 +86,7 @@ SITE <- list(
   ),
   # Secteurs analysés séparément (section 4d). Les suivis par photo-identification
   # décrivent deux groupes côtiers résidents : archipel de Molène (GECC, 2021) et
-  # chaussée de Sein, jusqu'au phare d'Ar Men (Buanic, OFB, 2021-2022). Les boîtes
+  # chaussée de Sein, jusqu'au phare d'Ar Men, où des dauphins de passage sont signalés (Buanic, OFB, 2021-2022). Les boîtes
   # ont été tracées d'après ces suivis, après une première estimation sur tout le
   # Parc qui montrait deux concentrations distinctes : elles servent à séparer
   # les deux groupes, ce ne sont pas des limites biologiques. Leur influence est
@@ -117,7 +120,7 @@ PAS_GRILLE_DEG     <- 1 / 12 # 5 minutes d'arc : positions dont la longitude et 
                              # latitude tombent pile sur ce pas = centres de maille
                              # d'un atlas, pas des positions réelles
 INCERTITUDE_FLOUTEE_M <- 5000 # précision annoncée à partir de laquelle une donnée est
-                             # considérée comme « floutée » (coordonnées dégradées)
+                             # considérée comme peu précise (doublon possible d'un autre jeu)
 DISTANCE_DOUBLON_FLOU_M <- 10000 # rayon de recherche d'un jumeau non flouté le même jour
 TAILLE_CELLULE_M   <- 1000   # agrégation : 1 obs. par cellule de 1 km et par jour
 RESOLUTION_BATHY_MIN <- 0.25  # résolution de la bathymétrie NOAA, en minutes d'arc (0.25 = 15")
@@ -349,7 +352,7 @@ resultats$surface_zone_km2 <- as.numeric(st_area(zone_etude)) / 1e6
 #            Core), puis filtres successifs notés dans un journal : absences,
 #            spécimens, échouages, doublons entre portails, dates, précision,
 #            positions ramenées sur une grille d'atlas, points à terre,
-#            doublons floutés entre jeux de données, agrégation à 1 observation par km² et par jour
+#            doublons imprécis entre jeux de données, agrégation à 1 observation par km² et par jour
 #            (pseudo-réplication), sélection dans le Parc.
 # Sorties  : obs_parc (observations retenues), journal (nombre restant par étape).
 
@@ -509,7 +512,7 @@ obs <- obs_brutes |>
 # Certains jeux anciens ne donnent pas la position de l'observation mais le centre
 # d'une maille d'atlas (ex. 4°50' O, 48°25' N). Plusieurs dizaines d'observations
 # se retrouvent alors empilées sur le même point, et la précision déclarée (50 m)
-# est fausse. Un point GPS réel tombe très rarement pile sur ce pas pour la
+# ne correspond pas à la position réelle. Un point GPS réel tombe très rarement pile sur ce pas pour la
 # longitude et la latitude : on peut donc les repérer automatiquement.
 sur_grille <- function(v, pas) abs(v / pas - round(v / pas)) < 1e-3
 obs$sur_grille <- sur_grille(obs$longitude, PAS_GRILLE_DEG) &
@@ -530,11 +533,11 @@ obs_sf <- obs_sf |>
   filter(!is.na(profondeur), profondeur < TOLERANCE_TERRE_M) |>
   noter("Points à terre exclus")
 
-# -- Doublons « floutés » entre jeux de données
+# -- Doublons imprécis entre jeux de données
 # Certains inventaires nationaux republient des observations d'autres jeux avec
-# des coordonnées volontairement dégradées (précision 5 km) : même date, position
+# une précision de 5 km : même date, position
 # décalée de quelques km. Le filtre de doublons exact ne les voit pas. Une donnée
-# floutée est retirée si une observation plus précise d'un autre jeu existe le
+# de précision >= 5 km est retirée si une observation plus précise (ou de précision non déclarée) d'un autre jeu existe le
 # même jour à moins de 10 km : on garde la version la plus précise.
 idx_flou <- which(!is.na(obs_sf$incertitude_m) &
                   obs_sf$incertitude_m >= INCERTITUDE_FLOUTEE_M)
@@ -553,7 +556,7 @@ if (length(idx_flou) > 0) {
 }
 resultats$exclus_floutes <- count(st_drop_geometry(obs_sf[a_retirer, ]), jeu_donnees, name = "n")
 if (length(a_retirer) > 0) obs_sf <- obs_sf[-a_retirer, ]
-obs_sf <- noter(obs_sf, "Doublons floutés exclus (même jour, < 10 km, autre jeu plus précis)")
+obs_sf <- noter(obs_sf, "Doublons imprécis exclus (même jour, < 10 km, autre jeu plus précis)")
 
 # Plusieurs positions du même groupe le même jour = pseudo-réplication.
 # On garde une observation par cellule de 1 km et par jour.
@@ -1138,8 +1141,10 @@ habillage <- function(lim = get("lim", envir = globalenv()), L = 20000) {
              fill = "grey15", colour = "grey15", linewidth = 0.2),
     annotate("rect", xmin = x0 + L / 2, xmax = x0 + L, ymin = y0, ymax = y0 + h,
              fill = "white", colour = "grey15", linewidth = 0.2),
-    annotate("text", x = c(x0, x0 + L / 2, x0 + L), y = y0 - 0.008 * hauteur,
-             label = c("0", format(L / 2000), paste(L / 1000, "km")), vjust = 1, size = 2.3),
+    # Une instruction par graduation : nécessaire pour les cartes à plusieurs panneaux
+    annotate("text", x = x0, y = y0 - 0.008 * hauteur, label = "0", vjust = 1, size = 2.3),
+    annotate("text", x = x0 + L / 2, y = y0 - 0.008 * hauteur, label = format(L / 2000), vjust = 1, size = 2.3),
+    annotate("text", x = x0 + L, y = y0 - 0.008 * hauteur, label = paste(L / 1000, "km"), vjust = 1, size = 2.3),
     annotate("segment", x = xn, y = yn, xend = xn + ln * u_nord[1], yend = yn + ln * u_nord[2],
              arrow = arrow(length = unit(0.2, "cm"), type = "closed"),
              linewidth = 1.8, colour = "white"),
@@ -1391,6 +1396,110 @@ if (resultats$trafic_disponible) {
   ggsave("outputs/figures/carte_trafic.png", carte_trafic, width = 9.5, height = 6.6, dpi = 300,
          bg = "white")
 
+  # Carte par catégorie : plaisance, voile, navires à passagers (pêche exclue)
+  # Objectif : voir quelles activités traversent les zones de concentration,
+  # ce que la carte « tous navires » ne permet pas de distinguer.
+  noms_cat <- names(trafic_rasters)[grepl("plaisance|voile|passager", names(trafic_rasters))]
+  if (length(noms_cat) > 0) {
+    cat_df <- do.call(rbind, lapply(noms_cat, function(n) {
+      d <- as.data.frame(trafic_rasters[[n]], xy = TRUE)
+      d$couche_lab <- libelle_couche(n)
+      d
+    }))
+    cat_df$couche_lab <- factor(cat_df$couche_lab, levels = libelle_couche(noms_cat))
+
+    carte_categories <- ggplot() +
+      geom_raster(data = cat_df, aes(x, y, fill = trafic)) +
+      scale_fill_viridis_c(name = "Densité de navires (h / km² / mois)", trans = "log1p",
+                           option = "magma", direction = -1,
+                           breaks = c(0, 1, 10, 100, 1000)) +
+      geom_sf(data = terre_sf, fill = "#e8e4dc", colour = "grey70", linewidth = 0.15) +
+      geom_sf(data = parc, fill = NA, colour = "grey15", linewidth = 0.35) +
+      geom_sf(data = dv_carte[dv_carte$niveau != "Parc 95 %", ], aes(colour = niveau),
+              fill = NA, linewidth = 0.6, key_glyph = "path") +
+      scale_colour_manual(name = NULL, values = c("KDE 50 %" = "#00a6a6", "KDE 95 %" = "#7fd4d4"),
+                          labels = etiquettes_dv[c("KDE 50 %", "KDE 95 %")]) +
+      facet_wrap(~ couche_lab, ncol = length(noms_cat)) +
+      habillage() +
+      cadre +
+      labs(title = titre_espece(paste("Trafic maritime par catégorie et", tolower(TITRE_KDE))),
+           subtitle = "Densité de navires équipés de l'AIS, moyenne annuelle 2023, grille de 1 km ; même échelle de couleurs pour les trois panneaux",
+           caption = paste0("Sources : EMODnet Human Activities, densité de navires (AIS) ; observations OBIS et GBIF ; ",
+                            mention_parc, ".\n",
+                            "L'AIS n'est obligatoire que pour une partie des navires : la plaisance et la voile sont sous-estimées.\n",
+                            signature)) +
+      theme_carte +
+      theme(legend.position = "bottom", legend.box = "vertical",
+            legend.key.width = unit(1.2, "cm"), legend.key.height = unit(0.3, "cm"),
+            axis.text = element_blank(), panel.grid = element_blank(),
+            strip.text = element_text(face = "bold", size = 9.5))
+    ggsave("outputs/figures/carte_trafic_categories.png", carte_categories, width = 11, height = 5.6,
+           dpi = 300, bg = "white")
+  }
+
+  # Schéma de synthèse pour la première page de la note
+  # Objectif : faire passer les deux messages principaux d'un coup d'œil.
+  # Les couloirs de navigation sont les cellules les plus fréquentées du Parc
+  # (5 % des cellules aux plus fortes densités EMODnet 2023), calculées pour la
+  # plaisance et la voile réunies d'une part, les navires à passagers d'autre part ;
+  # les cellules isolées sont retirées.
+  top_df <- function(motif, p = 0.95) {
+    n <- names(trafic_rasters)[grepl(motif, names(trafic_rasters))]
+    if (length(n) == 0) return(NULL)
+    r <- Reduce(`+`, trafic_rasters[n])
+    d <- as.data.frame(r, xy = TRUE)
+    names(d)[3] <- "v"
+    d <- d[d$v >= quantile(d$v, p, na.rm = TRUE), ]
+    # On retire les cellules isolées (sans voisine retenue) : elles ne forment pas un couloir
+    taille <- res(r)[1]
+    voisins <- as.matrix(dist(d[, c("x", "y")])) <= 1.5 * taille
+    d[rowSums(voisins) > 1, ]
+  }
+  nautisme  <- top_df("plaisance|voile")
+  passagers <- top_df("passager")
+  couloirs <- rbind(
+    if (!is.null(nautisme))  data.frame(nautisme[, c("x", "y")],  cat = "Plaisance et voile"),
+    if (!is.null(passagers)) data.frame(passagers[, c("x", "y")], cat = "Navires à passagers")
+  )
+  couloirs$cat <- factor(couloirs$cat, levels = c("Plaisance et voile", "Navires à passagers"))
+  couloirs <- couloirs[order(couloirs$cat), ]          # passagers dessinés au-dessus
+  taille_cellule <- res(trafic_rasters[[1]])
+  lieux_s <- lieux[lieux$nom %in% c("Ouessant", "Archipel\nde Molène", "Le Conquet", "Île de Sein"), ]
+  zones_s <- dv_carte[dv_carte$niveau %in% c("KDE 50 %", "KDE 95 %"), ]
+
+  schema_synthese <- ggplot() +
+    geom_sf(data = parc, fill = "#f3f7fa", colour = NA) +
+    geom_sf(data = zones_s[zones_s$niveau == "KDE 95 %", ], aes(fill = "Zone étendue des observations"), colour = NA) +
+    geom_sf(data = zones_s[zones_s$niveau == "KDE 50 %", ], aes(fill = "Zone centrale des observations"), colour = NA) +
+    geom_tile(data = couloirs, aes(x, y, fill = cat),
+              width = taille_cellule[1], height = taille_cellule[2]) +
+    scale_fill_manual(name = NULL,
+                      values = c("Zone centrale des observations" = "#ef8a85",
+                                 "Zone étendue des observations"  = "#fbd3d0",
+                                 "Plaisance et voile"             = "#e08214",
+                                 "Navires à passagers"            = "#54278f"),
+                      breaks = c("Zone centrale des observations", "Zone étendue des observations",
+                                 "Plaisance et voile", "Navires à passagers")) +
+    guides(fill = guide_legend(nrow = 2, byrow = TRUE)) +
+    geom_sf(data = zones_s[zones_s$niveau == "KDE 50 %", ], fill = NA, colour = "#b2182b", linewidth = 0.5) +
+    geom_sf(data = terre_sf, fill = "#e8e4dc", colour = "grey60", linewidth = 0.15) +
+    geom_sf(data = parc, fill = NA, colour = "grey40", linewidth = 0.3) +
+    geom_label(data = lieux_s, aes(x + dx, y + dy, label = nom, hjust = hjust),
+               size = 2.7, fill = scales::alpha("white", 0.8), linewidth = 0,
+               label.padding = unit(0.1, "lines"), lineheight = 0.85) +
+    habillage() +
+    cadre +
+    theme_void(base_size = 10) +
+    theme(plot.title = element_text(face = "bold", size = 9.5, colour = "#2f6690"),
+          plot.subtitle = element_text(size = 8, colour = "grey25"),
+          plot.title.position = "plot",
+          legend.position = "bottom", legend.direction = "horizontal",
+          legend.text = element_text(size = 8.5), legend.key.size = unit(0.4, "cm"),
+          plot.margin = margin(4, 4, 4, 4)) +
+    labs(title = bquote(bold("Grand dauphin (") * bolditalic("Tursiops truncatus") * bold(") et trafic maritime")),
+         subtitle = "Zones de concentration des observations et secteurs de trafic le plus dense")
+  ggsave("outputs/figures/schema_synthese.png", schema_synthese, width = 4.6, height = 5.2, dpi = 300, bg = "white")
+
   trafic_df$couche_lab <- factor(libelle_couche(trafic_df$couche),
                                  levels = libelle_couche(names(trafic_rasters)))
   # Nombre de cellules de 1 km² par zone (identique pour toutes les catégories)
@@ -1633,7 +1742,7 @@ message("\nTerminé. Résultats dans outputs/ — lancer ensuite postgis.R (base
 print(resultats$journal)
 message("Positions sur grille exclues, par jeu et par point :")
 print(resultats$exclus_grille)
-message("Doublons floutés exclus, par jeu :")
+message("Doublons imprécis exclus, par jeu :")
 print(resultats$exclus_floutes)
 print(resultats$domaine_vital)
 message("Par secteur :")
