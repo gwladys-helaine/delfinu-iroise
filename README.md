@@ -32,7 +32,7 @@ Exercice préparatoire réalisé dans le cadre de ma candidature au poste de **c
 | `analyse.R` | Script principal : téléchargement, contrôle qualité, zones, habitat, trafic, figures |
 | `postgis.R`, `requetes.sql`, `lieux.sql` | Base PostgreSQL / PostGIS et requêtes SQL ; résultats dans `journal_requetes.txt` et `01_…csv` à `07_…csv` |
 | `fond_carte_qgis.py`, `etiquettes_lieux_qgis.py` | Scripts QGIS (fond de carte, étiquettes) |
-| `*.png` | Cartes et graphiques de la note |
+| `*.png` | Cartes et graphiques de la note, et cartes complémentaires (trafic tous navires, secteur de Molène, sensibilité au découpage) |
 | `observations_propres_parc.csv`, `journal_nettoyage.csv`, `dictionnaire_donnees.csv` | Observations nettoyées, étapes du nettoyage, description des colonnes |
 | autres `*.csv` | Résultats chiffrés (zones, sensibilité, habitat, trafic, enregistrements exclus) |
 | `GUIDE_IROISE.md`, `delfinu-iroise.Rproj` | Guide d'installation et projet RStudio |
