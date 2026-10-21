@@ -638,7 +638,8 @@ iso50 <- isoplethe(0.50)
 iso95 <- isoplethe(0.95)
 domaine_vital <- rbind(iso50, iso95)
 
-# 4b. Polygone convexe minimum (MCP 95 %) — méthode simple de comparaison
+# 4b. Polygone convexe minimum (MCP 95 %) — méthode simple de comparaison,
+#     exportée dans les tableaux mais non utilisée dans la note
 centre <- colMeans(xy_parc)
 d_centre <- sqrt((xy_parc[, 1] - centre[1])^2 + (xy_parc[, 2] - centre[2])^2)
 mcp95 <- obs_parc[d_centre <= quantile(d_centre, 0.95), ] |>
@@ -883,7 +884,8 @@ resultats$glm <- data.frame(
 # Objectif : décrire le chevauchement entre les zones de concentration et le trafic.
 # Méthode  : densité de navires EMODnet (AIS, h/km²/mois) comparée entre la zone centrale,
 #            l'anneau 50-95 % et le reste du Parc (médianes) ; part des cellules
-#            de fort trafic (3e quartile, puis 50 % et 10 % en sensibilité)
+#            de fort trafic (3e quartile, puis 50 % et 10 % en sensibilité ;
+#            indicateur complémentaire, non retenu dans la note)
 #            situées dans les zones de concentration. Les catégories exclues pour ce site
 #            (pêche professionnelle) sont définies dans le bloc « Site étudié ».
 # Sorties  : resultats$trafic (tableau par zone et par catégorie de navires).

@@ -32,12 +32,12 @@ Exercice préparatoire réalisé dans le cadre de ma candidature au poste de **c
 | `analyse.R` | Script principal : téléchargement, contrôle qualité, zones, habitat, trafic, figures |
 | `postgis.R`, `requetes.sql`, `lieux.sql` | Base PostgreSQL / PostGIS et requêtes SQL ; résultats dans `journal_requetes.txt` et `01_…csv` à `07_…csv` |
 | `fond_carte_qgis.py`, `etiquettes_lieux_qgis.py` | Scripts QGIS (fond de carte, étiquettes) |
-| `*.png` | Cartes et graphiques de la note, et cartes complémentaires (trafic tous navires, secteur de Molène, sensibilité au découpage) |
+| `*.png` | Cartes et graphiques de la note, et cartes complémentaires (trafic tous navires, secteur de Molène, sensibilité au découpage, capture de la base dans QGIS) |
 | `observations_propres_parc.csv`, `journal_nettoyage.csv`, `dictionnaire_donnees.csv` | Observations nettoyées, étapes du nettoyage, description des colonnes |
 | autres `*.csv` | Résultats chiffrés (zones, sensibilité, habitat, trafic, enregistrements exclus) |
 | `GUIDE_IROISE.md`, `delfinu-iroise.Rproj` | Guide d'installation et projet RStudio |
 
-Pour reproduire l'analyse : ouvrir le projet RStudio, déposer le périmètre du Parc (PatriNat) et les rasters EMODnet dans `data/raw/`, puis lancer `analyse.R` (détails dans `GUIDE_IROISE.md`).
+Pour reproduire l'analyse : ouvrir le projet RStudio, déposer le périmètre du Parc (PatriNat) et les rasters EMODnet dans `data/raw/parc/` et `data/raw/trafic/`, puis lancer `analyse.R` (détails dans `GUIDE_IROISE.md`).
 
 ## Outils
 
