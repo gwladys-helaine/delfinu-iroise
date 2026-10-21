@@ -11,8 +11,10 @@
 #  Ce script :
 #   1. se connecte à la base « delfinu » ;
 #   2. crée un schéma « iroise » et y écrit les tables spatiales (observations,
-#      périmètre du Parc, domaine vital) avec leurs index spatiaux ;
-#   3. ajoute des contraintes de cohérence (année, profondeur) ;
+#      périmètre du Parc, zones de concentration des observations, dans les
+#      tables « domaine_vital* », nom hérité de la première version) avec leurs
+#      index spatiaux ;
+#   3. ajoute une contrainte de cohérence (année) ;
 #   4. exécute les requêtes d'exemple de requetes.sql et affiche les résultats.
 # =============================================================================
 

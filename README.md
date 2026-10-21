@@ -49,7 +49,5 @@ Observations : OBIS, GBIF (dont suivi aérien du Parc en 2010, Observatoire Pela
 
 Le code est librement réutilisable. Les observations restent soumises à la licence de leur jeu de données d'origine, indiquée sur OBIS et GBIF ; toute réutilisation doit citer ces jeux.
 
-Une première version de cette démarche a été appliquée au Parc naturel marin du Cap Corse et de l'Agriate : [delfinu-domaine-vital](https://github.com/gwladys-helaine/delfinu-domaine-vital).
-
 ---
 *Le code et la note ont été réalisés avec l'aide d'un assistant d'IA (Claude, Anthropic). J'ai conduit la démarche, vérifié les données, les résultats et les références, et arbitré les choix de méthode et d'interprétation.*

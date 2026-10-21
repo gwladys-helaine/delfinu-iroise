@@ -185,7 +185,7 @@ if (!res$parc_officiel) {
 
 ## Contexte et objectif
 
-Le projet Delfinu, co-porté par les parcs naturels marins d'Iroise et du Cap Corse et de l'Agriate, vise à comprendre et réduire les pressions humaines sur les grands dauphins (*Tursiops truncatus*) résidents. En Iroise, deux groupes côtiers sont suivis par photo-identification (reconnaissance des individus grâce aux marques naturelles de leur nageoire dorsale), dans l'archipel de Molène et sur la chaussée de Sein. Cet exercice reprend, en l'enrichissant, la démarche d'un premier exercice réalisé sur le Parc du Cap Corse et de l'Agriate. Le **domaine vital** désigne l'espace utilisé habituellement par un individu ou un groupe ; avec des observations opportunistes, on n'en obtient qu'une approximation, appelée ici **zones de concentration des observations**.
+Le projet Delfinu, co-porté par les parcs naturels marins d'Iroise et du Cap Corse et de l'Agriate, vise à comprendre et réduire les pressions humaines sur les grands dauphins (*Tursiops truncatus*) résidents. En Iroise, deux groupes côtiers sont suivis par photo-identification (reconnaissance des individus grâce aux marques naturelles de leur nageoire dorsale), dans l'archipel de Molène et sur la chaussée de Sein. Le **domaine vital** désigne l'espace utilisé habituellement par un individu ou un groupe ; avec des observations opportunistes, on n'en obtient qu'une approximation, appelée ici **zones de concentration des observations**.
 
 ## Données et méthodes
 

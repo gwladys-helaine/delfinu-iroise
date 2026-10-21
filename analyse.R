@@ -2,9 +2,7 @@
 #  Grand dauphin (Tursiops truncatus) dans le Parc naturel marin d'Iroise :
 #  zones de concentration des observations et chevauchement avec le trafic
 #  maritime (hors pêche professionnelle)
-#  Version enrichie du script développé pour le Parc naturel marin du Cap Corse
-#  et de l'Agriate ; les paramètres propres au site sont regroupés dans le bloc
-#  « Site étudié ».
+#  Les paramètres propres au site sont regroupés dans le bloc « Site étudié ».
 #
 #  Analyse exploratoire à partir de données ouvertes
 #  Auteure : Gwladys Helaine — octobre 2026
@@ -17,7 +15,7 @@
 #   1. Périmètre d'étude (Parc)
 #   2. Bathymétrie et distance à la côte
 #   3. Observations : téléchargement OBIS + GBIF, bancarisation, nettoyage et
-#      contrôle qualité (positions sur grille, doublons aux coordonnées dégradées)
+#      contrôle qualité (positions sur grille, doublons imprécis)
 #   4. Zones de concentration : noyau (KDE 50 % / 95 %) sur l'ensemble du Parc,
 #      puis par secteur (Molène, Sein) ; tests de sensibilité
 #   5. Habitat : comparaison utilisation / disponibilité (profondeur, côte)
@@ -64,7 +62,7 @@ SITE <- list(
   # Emprise approximative du Parc, utilisée seulement en l'absence de couche officielle
   bbox_parc_approx = c(xmin = -5.45, ymin = 47.95, xmax = -4.35, ymax = 48.6),
   # Isobathe repère et graduations de profondeur pour les cartes (mer d'Iroise
-  # peu profonde : l'isobathe 200 m utilisée en Corse n'existe pas ici)
+  # peu profonde : une isobathe de 200 m n'y serait pas pertinente)
   isobathe = 50,
   breaks_profondeur = c(10, 25, 50, 100),
   # Repères géographiques affichés sur les cartes
@@ -121,13 +119,13 @@ PAS_GRILLE_DEG     <- 1 / 12 # 5 minutes d'arc : positions dont la longitude et 
                              # d'un atlas, pas des positions réelles
 INCERTITUDE_FLOUTEE_M <- 5000 # précision annoncée à partir de laquelle une donnée est
                              # considérée comme peu précise (doublon possible d'un autre jeu)
-DISTANCE_DOUBLON_FLOU_M <- 10000 # rayon de recherche d'un jumeau non flouté le même jour
+DISTANCE_DOUBLON_FLOU_M <- 10000 # rayon de recherche d'une observation plus précise le même jour
 TAILLE_CELLULE_M   <- 1000   # agrégation : 1 obs. par cellule de 1 km et par jour
 RESOLUTION_BATHY_MIN <- 0.25  # résolution de la bathymétrie NOAA, en minutes d'arc (0.25 = 15")
 RESOLUTION_M       <- 250    # résolution des rasters reprojetés (500 si repli sur 1 minute)
-N_MIN_KDE          <- 30     # en dessous, le domaine vital est très incertain
+N_MIN_KDE          <- 30     # en dessous, les zones estimées sont très incertaines
 FACTEUR_H          <- 1      # multiplicateur de la largeur de bande href (1 = href)
-N_MIN_SECTEUR      <- 10     # minimum d'observations pour estimer un domaine vital par secteur
+N_MIN_SECTEUR      <- 10     # minimum d'observations pour estimer les zones d'un secteur
 N_DISPO_PAR_OBS    <- 10     # points de disponibilité tirés par observation
 CRS_METRIQUE       <- "EPSG:2154"  # Lambert-93 (France métropolitaine)
 FORCER_TELECHARGEMENT <- FALSE
@@ -489,7 +487,7 @@ obs <- obs_brutes |>
   filter(!is.na(longitude), !is.na(latitude),
          between(longitude, -180, 180), between(latitude, -90, 90)) |>
   noter("Coordonnées présentes et valides") |>
-  # Données d'absence ("cherché mais pas vu") : inutiles pour un domaine vital
+  # Données d'absence ("cherché mais pas vu") : inutiles pour localiser l'espèce
   filter(toupper(coalesce(statut, "")) != "ABSENT",
          toupper(coalesce(absence, "")) != "TRUE") |>
   noter("Données d'absence exclues") |>
@@ -573,9 +571,9 @@ obs_parc <- obs_sf[lengths(st_intersects(obs_sf, zone_etude)) > 0, ] |>
 
 n_parc <- nrow(obs_parc)
 message(n_parc, " observations retenues dans le Parc.")
-if (n_parc < 5) stop("Trop peu d'observations dans le Parc pour estimer un domaine vital.")
+if (n_parc < 5) stop("Trop peu d'observations dans le Parc pour estimer des zones de concentration.")
 if (n_parc < N_MIN_KDE) {
-  warning("Seulement ", n_parc, " observations : domaine vital très incertain, ",
+  warning("Seulement ", n_parc, " observations : zones de concentration très incertaines, ",
           "à présenter comme une illustration de la méthode.")
 }
 
@@ -590,10 +588,10 @@ resultats$annees        <- range(obs_parc$annee)
 resultats$par_annee     <- count(st_drop_geometry(obs_parc), annee)
 
 
-# ---- 4. Domaine vital ----------------------------------------------------------
+# ---- 4. Zones de concentration des observations -------------------------------
 # Objectif : estimer la zone utilisée habituellement par les grands dauphins.
 # Méthode  : estimation par noyau (KDE, largeur de bande de référence href),
-#            isoplèthes 50 % (cœur) et 95 % ; polygone convexe minimum (MCP 95 %)
+#            isoplèthes 50 % (zone centrale) et 95 % (zone étendue) ; polygone convexe minimum (MCP 95 %)
 #            pour comparaison ; analyse de sensibilité avec une largeur de bande
 #            réduite de moitié.
 # Sorties  : domaine_vital (polygones), surfaces en km², kde_volume (raster).
@@ -655,8 +653,8 @@ resultats$domaine_vital <- rbind(domaine_vital, mcp95) |>
   mutate(part_du_parc_pct = 100 * surface_km2 / resultats$surface_zone_km2)
 
 # 4c. Analyse de sensibilité : la largeur de bande de référence (href) tend à
-# surlisser. On recalcule le domaine vital avec une largeur de bande réduite de
-# moitié et on vérifie si le cœur reste au même endroit.
+# surlisser. On recalcule les zones avec une largeur de bande réduite de
+# moitié et on vérifie si la zone centrale reste au même endroit.
 FACTEUR_SENSIBILITE <- 0.5
 
 volume_kde <- function(hh) {
@@ -685,14 +683,14 @@ resultats$sensibilite_kde <- data.frame(
   h_km = FACTEUR_SENSIBILITE * href / 1000,
   surface_coeur_km2 = aire_km2(coeur_sens),
   surface_dv95_km2  = aire_km2(dv95_sens),
-  # Part du cœur « sensibilité » située dans le cœur de référence
+  # Part de la zone centrale « sensibilité » située dans la zone centrale de référence
   part_coeur_dans_reference_pct = 100 * recouvrement / aire_km2(coeur_sens)
 )
-message("Sensibilité (h x ", FACTEUR_SENSIBILITE, ") : cœur = ",
+message("Sensibilité (h x ", FACTEUR_SENSIBILITE, ") : zone centrale = ",
         round(resultats$sensibilite_kde$surface_coeur_km2), " km², dont ",
-        round(resultats$sensibilite_kde$part_coeur_dans_reference_pct), " % dans le cœur de référence.")
+        round(resultats$sensibilite_kde$part_coeur_dans_reference_pct), " % dans la zone centrale de référence.")
 
-# 4d. Domaine vital par secteur (Molène, Sein)
+# 4d. Zones de concentration par secteur (Molène, Sein)
 # Pourquoi : estimé sur tout le Parc, le KDE mélange les deux groupes côtiers et
 # des dauphins vus au large (dauphins de passage ou du large, que les données
 # publiques ne permettent pas de distinguer). Une seule largeur de bande, calculée
@@ -700,7 +698,7 @@ message("Sensibilité (h x ", FACTEUR_SENSIBILITE, ") : cœur = ",
 # Méthode : pour chaque secteur défini dans le bloc « Site étudié », on ne garde
 # que les observations du secteur, on recalcule href sur ces seules observations,
 # puis le KDE (grille plus fine, ~200 m) limité à la mer du secteur. On teste
-# aussi href / 2. On note la position du centre du cœur pour la comparer aux
+# aussi href / 2. On note la position du centre de la zone centrale pour la comparer aux
 # zones décrites par les suivis.
 # Sorties : resultats$secteurs (surfaces), resultats$secteurs_obs (effectifs,
 #           années, jeux de données), secteurs_dv (polygones).
@@ -736,7 +734,7 @@ for (s in seq_len(nrow(SITE$secteurs))) {
   pts    <- obs_parc[lengths(st_intersects(obs_parc, masque)) > 0, ]
   n_s    <- nrow(pts)
   if (n_s < N_MIN_SECTEUR) {
-    message("Secteur ", sec$nom, " : ", n_s, " observations, domaine vital non estimé.")
+    message("Secteur ", sec$nom, " : ", n_s, " observations, zones non estimées.")
     next
   }
   xy_s   <- st_coordinates(pts)
@@ -772,7 +770,7 @@ for (s in seq_len(nrow(SITE$secteurs))) {
 secteurs_dv <- if (length(secteurs_dv) > 0) do.call(rbind, secteurs_dv) else NULL
 resultats$secteurs     <- bind_rows(lignes_surf)
 resultats$secteurs_obs <- bind_rows(lignes_obs)
-message("Domaine vital par secteur :")
+message("Zones de concentration par secteur :")
 print(resultats$secteurs)
 
 # 4e. Sensibilité au découpage des secteurs
@@ -858,7 +856,7 @@ resultats$habitat_resume <- hab |>
 resultats$test_prof <- wilcox.test(prof_m ~ presence, data = hab)
 resultats$test_dist <- wilcox.test(dist_cote_km ~ presence, data = hab)
 
-# Modèle de sélection d'habitat (utilisation/disponibilité) — régression logistique
+# Modèle utilisation / disponibilité (association, pas mesure de sélection) — régression logistique
 # On vérifie d'abord la corrélation entre les deux variables
 resultats$correlation_prof_dist <- cor(hab$prof_m, hab$dist_cote_km, method = "spearman")
 if (abs(resultats$correlation_prof_dist) > 0.7) {
@@ -882,11 +880,11 @@ resultats$glm <- data.frame(
 
 
 # ---- 6. Pressions : trafic maritime -----------------------------------------
-# Objectif : mesurer le chevauchement entre le domaine vital et le trafic.
-# Méthode  : densité de navires EMODnet (AIS, h/km²/mois) comparée entre le cœur,
+# Objectif : décrire le chevauchement entre les zones de concentration et le trafic.
+# Méthode  : densité de navires EMODnet (AIS, h/km²/mois) comparée entre la zone centrale,
 #            l'anneau 50-95 % et le reste du Parc (médianes) ; part des cellules
 #            de fort trafic (3e quartile, puis 50 % et 10 % en sensibilité)
-#            situées dans le domaine vital. Les catégories exclues pour ce site
+#            situées dans les zones de concentration. Les catégories exclues pour ce site
 #            (pêche professionnelle) sont définies dans le bloc « Site étudié ».
 # Sorties  : resultats$trafic (tableau par zone et par catégorie de navires).
 
@@ -909,7 +907,7 @@ rang <- ifelse(grepl("tous", nb, ignore.case = TRUE), 1,
 fichiers_trafic <- fichiers_trafic[order(rang, nb)]
 resultats$trafic_disponible <- length(fichiers_trafic) > 0
 
-# Zones : cœur (KDE 50 %), domaine vital (50-95 %), reste du Parc.
+# Zones : zone centrale (KDE 50 %), zone étendue (50-95 %), reste du Parc.
 # Elles sont définies à partir des zones estimées par secteur (section 4d), qui
 # est le résultat principal : toutes les analyses de trafic portent ainsi sur
 # les mêmes contours que ceux des cartes. Le KDE sur l'ensemble du Parc n'est
@@ -921,13 +919,13 @@ if (!is.null(secteurs_dv)) {
   r95 <- rasterize(vect(dv_ref[dv_ref$niveau == "KDE 95 %", ]), gabarit, field = 1)
   zones <- ifel(!is.na(r50), 1, ifel(!is.na(r95), 2, 3))
   zones <- mask(zones, vect(zone_etude))
-  resultats$zones_trafic <- "domaine vital par secteur (href de chaque secteur)"
+  resultats$zones_trafic <- "zones de concentration par secteur (href de chaque secteur)"
 } else {
   zones <- classify(kde_volume, rcl = matrix(c(0,    0.50, 1,
                                                0.50, 0.95, 2,
                                                0.95, 1.01, 3), ncol = 3, byrow = TRUE),
                     include.lowest = TRUE)
-  resultats$zones_trafic <- "domaine vital sur l'ensemble du Parc"
+  resultats$zones_trafic <- "zones de concentration sur l'ensemble du Parc"
 }
 etiquettes_zones <- c("Zone centrale (KDE 50 %)", "Zone étendue (KDE 50-95 %)", "Reste du Parc")
 
@@ -1021,7 +1019,7 @@ if (resultats$trafic_disponible) {
   print(resultats$trafic_cotier)
 }
 
-# 6b. Trafic par secteur : cœur du secteur (KDE 50 %, href du secteur) comparé
+# 6b. Trafic par secteur : zone centrale du secteur (KDE 50 %, href du secteur) comparé
 # au reste de la mer du secteur
 if (resultats$trafic_disponible && length(secteurs_vol) > 0) {
   lignes <- list()
@@ -1047,7 +1045,7 @@ if (resultats$trafic_disponible && length(secteurs_vol) > 0) {
 # Objectif : produire des cartes et graphiques prêts à diffuser.
 # Méthode  : ggplot2 ; habillage cartographique commun (échelle, nord
 #            géographique, repères, sources et auteur en légende).
-# Sorties  : outputs/figures/ (carte du domaine vital, habitat, trafic).
+# Sorties  : outputs/figures/ (carte des zones de concentration, habitat, trafic).
 
 AUTEUR <- "G. Helaine"
 mois_fr <- c("janvier", "février", "mars", "avril", "mai", "juin", "juillet",
@@ -1244,7 +1242,7 @@ carte_dv <- ggplot() +
   geom_sf(data = terre_sf, fill = "#e8e4dc", colour = "grey70", linewidth = 0.15) +
   geom_sf(data = parc, aes(linetype = "Limite du Parc"), fill = NA, colour = "grey15",
           linewidth = 0.45, key_glyph = "path") +
-  # Contexte (tout le Parc) en tirets, domaine vital par secteur en trait plein
+  # Contexte (tout le Parc) en tirets, zones par secteur en trait plein
   # (couche ajoutée seulement si AFFICHER_CONTEXTE = TRUE : une couche vide fait
   # planter ggplot)
   (if (AFFICHER_CONTEXTE) geom_sf(data = dv_carte[dv_carte$niveau == "Parc 95 %", ],
