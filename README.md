@@ -5,7 +5,7 @@ Exercice préparatoire réalisé dans le cadre de ma candidature au poste de **c
 **À lire en premier : [note.pdf](note.pdf).** La page 1 en donne la synthèse ; les pages suivantes détaillent méthodes, résultats et limites.
 
 <p align="center">
-  <img src="carte_domaine_vital.png" width="85%" alt="Zones de concentration des observations de grand dauphin en Iroise">
+  <img src="figures/carte_domaine_vital.png" width="85%" alt="Zones de concentration des observations de grand dauphin en Iroise">
 </p>
 <p align="center"><em>Zones de concentration des observations (estimation par noyau) dans les secteurs de Molène et de Sein.</em></p>
 
@@ -30,11 +30,10 @@ Exercice préparatoire réalisé dans le cadre de ma candidature au poste de **c
 |---|---|
 | `note.pdf`, `note.qmd` | Note (version PDF et source Quarto) |
 | `analyse.R` | Script principal : téléchargement, contrôle qualité, zones, habitat, trafic, figures |
-| `postgis.R`, `requetes.sql`, `lieux.sql` | Base PostgreSQL / PostGIS et requêtes SQL ; résultats dans `journal_requetes.txt` et `01_…csv` à `07_…csv` |
+| `postgis.R`, `requetes.sql`, `lieux.sql` | Base PostgreSQL / PostGIS et requêtes SQL ; résultats dans `resultats/` (`journal_requetes.txt`, `01_…csv` à `07_…csv`) |
 | `fond_carte_qgis.py`, `etiquettes_lieux_qgis.py` | Scripts QGIS (fond de carte, étiquettes) |
-| `*.png` | Cartes et graphiques de la note, et cartes complémentaires (trafic tous navires, secteur de Molène, sensibilité au découpage, capture de la base dans QGIS) |
-| `observations_propres_parc.csv`, `journal_nettoyage.csv`, `dictionnaire_donnees.csv` | Observations nettoyées, étapes du nettoyage, description des colonnes |
-| autres `*.csv` | Résultats chiffrés (zones, sensibilité, habitat, trafic, enregistrements exclus) |
+| `figures/` | Cartes et graphiques de la note, et cartes complémentaires (trafic tous navires, secteur de Molène, sensibilité au découpage, capture de la base dans QGIS) |
+| `resultats/` | Observations nettoyées (`observations_propres_parc.csv`), étapes du nettoyage (`journal_nettoyage.csv`), description des colonnes (`dictionnaire_donnees.csv`) et résultats chiffrés (zones, sensibilité, habitat, trafic, enregistrements exclus, requêtes SQL) |
 | `GUIDE_IROISE.md`, `delfinu-iroise.Rproj` | Guide d'installation et projet RStudio |
 
 Pour reproduire l'analyse : ouvrir le projet RStudio, déposer le périmètre du Parc (PatriNat) et les rasters EMODnet dans `data/raw/parc/` et `data/raw/trafic/`, puis lancer `analyse.R` (détails dans `GUIDE_IROISE.md`).
