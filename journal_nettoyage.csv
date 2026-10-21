@@ -9,6 +9,6 @@ Date connue et année >= 2000,612
 Précision de localisation <= 5 km,376
 Positions sur une grille de 5' exclues (centres de maille d'atlas),294
 Points à terre exclus,259
-"Doublons floutés exclus (même jour, < 10 km, autre jeu plus précis)",231
+"Doublons imprécis exclus (même jour, < 10 km, autre jeu plus précis)",231
 Agrégation : 1 observation par km² et par jour,226
 Observations situées dans le Parc,102
