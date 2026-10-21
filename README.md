@@ -26,8 +26,6 @@ Exercice préparatoire réalisé dans le cadre de ma candidature au poste de **c
 
 ## Contenu du dépôt
 
-Tous les fichiers sont à la racine.
-
 | Fichier | Rôle |
 |---|---|
 | `note.pdf`, `note.qmd` | Note (version PDF et source Quarto) |
